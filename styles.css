@@ -1,0 +1,393 @@
+        body {
+            background-color: #f1f5f9;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 24px 24px;
+            position: relative;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+        @keyframes backgroundShift {
+            0%, 100% { background-position: 0 0; }
+            50% { background-position: 24px 24px; }
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://cdn.pau.edu.tr/BIYS/siteler/ybs/logo/logoTR.png');
+            background-size: 250px 250px;
+            background-repeat: repeat;
+            background-position: 0 0;
+            opacity: 0.06;
+            pointer-events: none;
+            z-index: 0;
+            animation: watermarkFloat 30s ease-in-out infinite;
+        }
+        @keyframes watermarkFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(10px, -10px) rotate(1deg); }
+            66% { transform: translate(-10px, 10px) rotate(-1deg); }
+        }
+        main, header {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-container {
+            perspective: 1200px;
+        }
+        
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-style: preserve-3d;
+            cursor: pointer;
+            transform: translateZ(0);
+        }
+
+        .flip-card-inner.is-flipped {
+            transform: rotateY(180deg);
+        }
+        
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 50px -12px rgba(0,0,0,0.15);
+            transform-style: preserve-3d;
+            transition: all 0.3s ease;
+        }
+        
+        .flip-card-front:hover {
+            box-shadow: 0 20px 50px -12px rgba(0,0,0,0.15);
+        }
+        
+        .flip-card-back:hover {
+            box-shadow: 0 20px 50px -12px rgba(0,0,0,0.15);
+        }
+
+        .flip-card-front {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            padding-bottom: 4rem; /* Space for footer */
+        }
+        @media (min-width: 640px) {
+            .flip-card-front {
+                padding-bottom: 4.5rem;
+            }
+        }
+
+        .flip-card-back {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            transform: rotateY(180deg);
+            border: 1px solid #e2e8f0;
+            padding: 0;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .back-content {
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 transparent;
+            -webkit-overflow-scrolling: touch; /* iOS smooth scrolling */
+            flex: 1 1 0;
+            min-height: 0;
+        }
+        .back-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .back-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .back-content::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .back-content::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        /* Custom scrollbar for formula area */
+        #ansFormula {
+            overflow: auto !important;
+            max-height: 200px !important;
+            min-height: 40px;
+            scrollbar-width: thin;
+            scrollbar-color: #94a3b8 #f1f5f9;
+            padding-right: 4px;
+        }
+        @media (min-width: 640px) {
+            #ansFormula {
+                max-height: 250px !important;
+            }
+        }
+        #ansFormula::-webkit-scrollbar {
+            width: 10px !important;
+            height: 10px !important;
+            display: block !important;
+        }
+        #ansFormula::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 5px;
+        }
+        #ansFormula::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 5px;
+            border: 2px solid #f1f5f9;
+        }
+        #ansFormula::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        #ansFormula::-webkit-scrollbar-corner {
+            background: #f1f5f9;
+        }
+
+        .tag-pill {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .tag-pill::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        .tag-pill:active::before {
+            width: 300px;
+            height: 300px;
+        }
+        .tag-pill.active {
+            background-color: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3), 0 0 20px rgba(79, 70, 229, 0.2);
+            transform: translateY(-2px);
+        }
+        .tag-pill:hover:not(.active) {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Category specific border tops for visual cue */
+        .border-top-brand { border-top: 6px solid #4f46e5; }
+        .border-top-accent { border-top: 6px solid #ec4899; }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 3s ease-in-out infinite;
+        }
+        .animate-bounce-slow {
+            animation: bounce-slow 2s ease-in-out infinite;
+        }
+        .animate-bounce-subtle {
+            animation: bounce-slow 3s ease-in-out infinite;
+        }
+        .animate-spin-slow {
+            animation: spin-slow 20s linear infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(200%); }
+        }
+        .animate-shimmer {
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        /* Card transition effect */
+        .card-container {
+            animation: fadeIn 0.4s ease-out;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Glow effect on active category */
+        .tag-pill.active::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(45deg, #4f46e5, #8b5cf6, #4f46e5);
+            opacity: 0.3;
+            z-index: -1;
+            animation: pulse-slow 2s ease-in-out infinite;
+        }
+        
+        /* Counter animation */
+        #counter {
+            transition: all 0.3s ease;
+        }
+        #counter.updated {
+            animation: pulse-slow 0.5s ease-out;
+            transform: scale(1.1);
+        }
+        
+        /* Icon container glow */
+        #iconContainer::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: inherit;
+            background: inherit;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: -1;
+        }
+        #iconContainer:hover::after {
+            opacity: 0.4;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 640px) {
+            main {
+                padding: 0.5rem;
+                justify-content: flex-start;
+                padding-top: 0.75rem;
+                padding-bottom: 0.75rem;
+                gap: 0.75rem;
+            }
+            .card-container {
+                height: calc(100vh - 240px) !important;
+                min-height: 350px;
+                max-height: calc(100vh - 200px);
+                width: 100%;
+            }
+            .flip-card-back {
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
+            .back-content {
+                overflow-y: auto !important;
+                overflow-x: hidden !important;
+                -webkit-overflow-scrolling: touch;
+                flex: 1 1 0;
+                min-height: 0;
+            }
+            /* Navigation buttons mobile */
+            .flex.items-center.gap-4 {
+                margin-top: 0.75rem !important;
+                margin-bottom: 0;
+            }
+            .flip-card-front {
+                padding: 1.25rem 1rem 3.25rem 1rem;
+            }
+            #cardFrontText {
+                font-size: 1.125rem;
+                line-height: 1.5;
+                padding: 0 0.75rem;
+            }
+            #iconContainer {
+                width: 4rem;
+                height: 4rem;
+                font-size: 1.75rem;
+                margin-bottom: 0.75rem;
+            }
+            /* Category badge mobile */
+            #cardCategory {
+                top: 0.75rem;
+                left: 0.75rem;
+                padding: 0.375rem 0.5rem;
+                font-size: 0.5rem;
+            }
+            /* Footer mobile adjustments */
+            .flip-card-front .absolute.bottom-0 {
+                padding: 0.625rem 0.75rem;
+            }
+            /* Logo watermark mobile - already handled in HTML */
+        }
+        
+        /* Small mobile (very small screens) */
+        @media (max-width: 375px) {
+            #cardFrontText {
+                font-size: 1rem;
+            }
+            #iconContainer {
+                width: 3.5rem;
+                height: 3.5rem;
+                font-size: 1.5rem;
+            }
+            .flip-card-front .absolute.bottom-0 div {
+                font-size: 0.625rem;
+                gap: 0.375rem;
+            }
+        }
+        
+        /* Tablet adjustments */
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .card-container {
+                max-width: 90%;
+            }
+            #cardFrontText {
+                font-size: 1.75rem;
+            }
+        }
+        
+        /* Large screen adjustments */
+        @media (min-width: 1280px) {
+            .card-container {
+                max-width: 42rem;
+            }
+        }
+        
+        /* Extra large screens */
+        @media (min-width: 1536px) {
+            .card-container {
+                max-width: 48rem;
+            }
+        }
+    </style>
