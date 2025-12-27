@@ -299,12 +299,23 @@
                 padding-top: 0.75rem;
                 padding-bottom: 0.75rem;
                 gap: 0.75rem;
+                padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
             }
             .card-container {
-                height: calc(100vh - 240px) !important;
+                height: calc(100dvh - 280px) !important;
                 min-height: 350px;
-                max-height: calc(100vh - 200px);
+                max-height: calc(100dvh - 240px);
                 width: 100%;
+            }
+            /* Ensure navigation is always visible on mobile */
+            .flex.items-center.gap-4 {
+                position: sticky;
+                bottom: 0;
+                background: linear-gradient(to top, rgba(241, 245, 249, 0.95) 0%, rgba(241, 245, 249, 0.8) 80%, transparent 100%);
+                backdrop-filter: blur(10px);
+                padding-top: 0.5rem;
+                padding-bottom: max(1rem, env(safe-area-inset-bottom));
+                margin-bottom: 0 !important;
             }
             .flip-card-back {
                 overflow: hidden;
@@ -318,10 +329,17 @@
                 flex: 1 1 0;
                 min-height: 0;
             }
-            /* Navigation buttons mobile */
+            /* Navigation buttons mobile - ensure always visible */
             .flex.items-center.gap-4 {
+                position: sticky !important;
+                bottom: 0 !important;
                 margin-top: 0.75rem !important;
-                margin-bottom: 0;
+                margin-bottom: 0 !important;
+                background: linear-gradient(to top, rgba(241, 245, 249, 0.95) 0%, rgba(241, 245, 249, 0.8) 80%, transparent 100%);
+                backdrop-filter: blur(10px);
+                padding-top: 0.5rem;
+                padding-bottom: max(1rem, env(safe-area-inset-bottom)) !important;
+                z-index: 20;
             }
             .flip-card-front {
                 padding: 1.25rem 1rem 3.25rem 1rem;
