@@ -1,0 +1,2400 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>YBS 441 – Final Sınavı Çalışma Soruları</title> 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<!-- MathJax Entegrasyonu -->
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#ffffff; --text:#1f2937; --muted:#6b7280; --brand:#2563eb;
+    --ok:#16a34a; --warn:#b45309; --bad:#dc2626; --border:#e5e7eb; --chip:#eef2ff;
+    --case:#7c3aed; /* Senaryo soruları için mor renk */
+    --case-bg:rgba(124, 58, 237, 0.05);
+  }
+  .dark{
+    --bg:#0b1020; --card:#0f172a; --text:#e5e7eb; --muted:#94a3b8; --brand:#60a5fa;
+    --ok:#22c55e; --warn:#f59e0b; --bad:#f87171; --border:#1f2a44; --chip:#0b1533;
+    --case:#a78bfa; 
+    --case-bg:rgba(167, 139, 250, 0.1);
+  }
+  .dark body::before{opacity:0.05}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:15px/1.45 "Inter",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  body{
+    overflow-x:hidden;
+    position:relative
+  }
+  body::before{
+    content:'';
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background-image:url('https://cdn.pau.edu.tr/BIYS/siteler/ybs/logo/logoTR.png');
+    background-repeat:repeat;
+    background-size:200px auto;
+    opacity:0.05;
+    z-index:0;
+    pointer-events:none
+  }
+  main,header,footer{position:relative;z-index:1}
+  header{
+    position:sticky;top:0;z-index:10;background:linear-gradient(180deg,rgba(0,0,0,0.06),transparent),
+    var(--bg);backdrop-filter:saturate(140%) blur(6px); border-bottom:1px solid var(--border)
+  }
+  .container{max-width:980px;margin:0 auto;padding:16px}
+  h1{margin:0 0 6px;font-size:22px}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:10px}
+  .brand{display:flex;align-items:center;gap:16px}
+  .brand .logo{height:48px;width:auto;display:block}
+  .brand-txt{display:flex;flex-direction:column}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap}
+  button,.chip{
+    border:1px solid var(--border);background:var(--card);color:var(--text);
+    padding:9px 12px;border-radius:10px;cursor:pointer;transition:.15s;font-weight:600;
+    min-height:40px;touch-action:manipulation
+  }
+  button:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,0.08)}
+  button:active{transform:translateY(0)}
+  button:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+  .primary{background:var(--brand);border-color:var(--brand);color:#fff}
+  .ghost{background:transparent}
+  button.active{background:var(--brand);border-color:var(--brand);color:#fff}
+  .chip{background:var(--chip);font-size:12px}
+  .switch{margin-left:auto}
+  main{padding:16px 0 60px}
+  .qcard{
+    background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px 14px;margin:14px 0;
+    box-shadow:0 4px 20px rgba(0,0,0,0.05)
+  }
+  .qcard:hover{box-shadow:0 10px 30px rgba(0,0,0,0.08)}
+  .qhead{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px}
+  .qno{background:var(--chip);color:var(--brand);font-weight:800;border-radius:999px;padding:6px 10px;font-size:12px;white-space:nowrap;flex-shrink:0}
+  .qtitle{font-weight:700;flex:1;min-width:0}
+  .options{display:grid;gap:8px;margin-top:10px}
+  .opt{
+    display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--border);
+    border-radius:12px;cursor:pointer;transition:.12s;background:transparent;
+    min-height:44px;touch-action:manipulation
+  }
+  .opt:hover{border-color:var(--brand);background:rgba(37,99,235,0.06)}
+  .opt input{margin-top:3px;accent-color:var(--brand)}
+  .opt.checked{
+    border-color:var(--brand);
+    background:rgba(37,99,235,0.1)
+  }
+  .answer{
+    margin-top:10px;padding:12px 12px;border:1px dashed var(--border);border-radius:12px;display:none;font-size:14px;
+    background:rgba(22,163,74,0.06)
+  }
+  .dark .opt:hover{background:rgba(96,165,250,0.06)}
+  .dark .opt.checked{background:rgba(96,165,250,0.1)}
+  .dark .answer{background:rgba(34,197,94,0.06)}
+  .answer.ok{border-color:var(--ok)}
+  .answer .tag{font-weight:800;color:var(--ok)}
+  .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .muted{color:var(--muted);font-size:13px}
+  .correct{outline:2px solid var(--ok)}
+  .incorrect{outline:2px solid var(--bad)}
+  footer{position:sticky;bottom:0;background:var(--bg);border-top:1px solid var(--border)}
+  .footbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+  .footbar .muted{flex:1;text-align:center}
+  .score{font-weight:800;background:var(--chip);padding:6px 10px;border-radius:999px;border:1px solid var(--border)}
+  
+  /* Duyuru metni */
+  .announcement{
+    background:linear-gradient(135deg, rgba(37,99,235,0.08), rgba(147,51,234,0.08));
+    border:1px solid var(--border);border-radius:16px;padding:20px 24px;margin:24px 0;
+    border-left:4px solid var(--brand);box-shadow:0 4px 20px rgba(0,0,0,0.05)
+  }
+  .announcement-content{color:var(--text);font-size:15px;line-height:1.7;margin:0}
+  .announcement-content strong{color:var(--brand);font-weight:700}
+  
+  /* Yeni soru tipleri için stiller */
+  .section-header{display:flex;align-items:center;gap:12px;margin:24px 0 16px}
+  .section-number{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px}
+  .section-title{font-size:20px;font-weight:700}
+  .section-desc{color:var(--muted);font-size:13px;margin-top:4px}
+  
+  /* Doğru/Yanlış soruları */
+  .dy-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+  .dy-opt{
+    padding:12px;border:1px solid var(--border);border-radius:12px;cursor:pointer;text-align:center;
+    transition:.12s;background:transparent;font-weight:600;min-height:44px;touch-action:manipulation;
+    display:flex;align-items:center;justify-content:center
+  }
+  .dy-opt:hover{border-color:var(--brand);background:rgba(37,99,235,0.06)}
+  .dy-opt input{display:none}
+  .dy-opt input:checked + span{color:var(--brand);font-weight:800}
+  .dy-opt:has(input:checked){
+    border-color:var(--brand);
+    background:rgba(37,99,235,0.1)
+  }
+  
+  /* Boşluk doldurma */
+  .blank-input{
+    width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:12px;
+    background:var(--card);color:var(--text);font-size:14px;margin-top:10px
+  }
+  .blank-input:focus{outline:2px solid var(--brand);outline-offset:2px;border-color:var(--brand)}
+  
+  /* İpucu */
+  .hint-btn{color:var(--brand);font-size:13px;font-weight:600;cursor:pointer;margin-top:8px;display:inline-flex;align-items:center;gap:4px;padding:6px 0;min-height:32px;touch-action:manipulation}
+  .hint-btn:hover{opacity:0.8}
+  .hint-content{
+    margin-top:8px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;
+    background:rgba(37,99,235,0.06);font-size:13px;color:var(--muted);display:none;font-style:italic
+  }
+  .hint-content.show{display:block}
+  
+  /* Feedback */
+  .feedback{
+    margin-top:10px;padding:12px;border-radius:12px;display:none;font-size:14px
+  }
+  .feedback.show{display:block}
+  .feedback.correct{border:1px solid var(--ok);background:rgba(22,163,74,0.1);color:var(--ok)}
+  .feedback.incorrect{border:1px solid var(--bad);background:rgba(220,38,38,0.1);color:var(--bad)}
+  .feedback.empty{border:1px solid var(--border);background:rgba(107,114,128,0.1);color:var(--muted)}
+  
+  /* Klasik sorular */
+  .classic-textarea{
+    width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;
+    background:var(--card);color:var(--text);font-size:14px;margin-top:10px;
+    min-height:100px;resize:vertical;font-family:inherit
+  }
+  .classic-textarea:focus{outline:2px solid var(--brand);outline-offset:2px;border-color:var(--brand)}
+  .classic-answer{
+    margin-top:10px;padding:12px;border:1px solid var(--border);border-radius:12px;
+    background:rgba(147,51,234,0.06);display:none;font-size:14px
+  }
+  .classic-answer.show{display:block}
+
+  /* Görsel sorular için stiller */
+  .visual-container {
+    margin: 15px 0;
+    padding: 10px;
+    background: var(--bg);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  .visual-container svg {
+    max-width: 100%;
+    height: auto;
+    max-height: 250px;
+    display: block;
+  }
+  
+  /* vis9 container - İki grafik aynı boyutta */
+  .vis9-container {
+    flex-direction: row !important; /* Masaüstünde yan yana */
+    flex-wrap: nowrap !important; /* Masaüstünde yan yana kalması için */
+  }
+  .vis9-container svg {
+    width: 300px;
+    height: 200px;
+    min-width: 300px;
+    min-height: 200px;
+    flex-shrink: 0;
+  }
+  
+  /* Senaryo Soruları Özel Stili */
+  .scenario-card {
+    border-left: 4px solid var(--case);
+    background: var(--case-bg);
+  }
+  .scenario-card .qno {
+    background: var(--case);
+    color: #fff;
+  }
+  
+  /* Modal */
+  .modal{position:fixed;inset:0;z-index:100;display:none}
+  .modal.show{display:flex;align-items:center;justify-content:center}
+  .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)}
+  .modal-panel{
+    position:relative;background:var(--card);border-radius:16px;padding:24px;max-width:500px;width:90%;
+    box-shadow:0 20px 60px rgba(0,0,0,0.3);z-index:101; max-height: 90vh; overflow-y: auto;
+  }
+  .modal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+  .stat-box{
+    padding:16px;border-radius:12px;text-align:center;border:1px solid var(--border)
+  }
+  .stat-value{font-size:24px;font-weight:800;margin-bottom:4px}
+  .stat-label{font-size:12px;color:var(--muted)}
+  
+  /* Tablet ve küçük ekranlar */
+  @media (max-width:768px){
+    .container{padding:12px}
+    h1{font-size:20px}
+    .sub{font-size:12px}
+    .section-title{font-size:18px}
+    .section-number{width:36px;height:36px;font-size:14px}
+    .qcard{padding:14px 12px;margin:12px 0}
+    .qno{font-size:11px;padding:5px 9px}
+    .qtitle{font-size:15px}
+    .modal-panel{max-width:90%;padding:20px}
+    .announcement{padding:16px 18px;margin:20px 0}
+    .announcement-content{font-size:14px;line-height:1.6}
+    /* vis9 - Tablet'te de alt alta */
+    .vis9-container{flex-direction:column!important;gap:20px!important}
+    .vis9-container svg{width:100%!important;max-width:100%!important;height:auto!important;min-width:0!important}
+  }
+  
+  /* Mobil cihazlar */
+  @media (max-width:520px){
+    .container{padding:10px}
+    h1{font-size:18px;margin-bottom:4px}
+    .sub{font-size:11px;margin-bottom:8px}
+    .brand{gap:10px}
+    .brand .logo{height:36px!important}
+    .brand-txt{flex:1;min-width:0}
+    
+    /* Toolbar */
+    .toolbar{flex-wrap:nowrap;gap:6px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;padding:8px 0}
+    .toolbar button{font-size:12px;padding:8px 10px;white-space:nowrap;flex-shrink:0;min-height:36px}
+    .toolbar .chip{font-size:11px;padding:6px 8px;white-space:nowrap;flex-shrink:0;display:none}
+    .toolbar .switch{margin-left:0;flex-shrink:0}
+    
+    /* Sections */
+    .section-header{margin:20px 0 12px;gap:10px}
+    .section-number{width:32px;height:32px;font-size:13px}
+    .section-title{font-size:16px}
+    .section-desc{font-size:12px}
+    
+    /* Cards */
+    .qcard{padding:12px 10px;margin:10px 0;border-radius:12px}
+    .qhead{gap:6px;margin-bottom:8px;flex-wrap:wrap}
+    .qno{font-size:10px;padding:4px 8px}
+    .qtitle{font-size:14px;line-height:1.5}
+    
+    /* Options */
+    .options{gap:6px;margin-top:8px}
+    .opt{padding:10px;font-size:14px}
+    .dy-options{grid-template-columns:1fr;gap:6px}
+    .dy-opt{padding:12px;font-size:14px;min-height:44px}
+    
+    /* Inputs */
+    .blank-input{padding:10px;font-size:14px;min-height:44px}
+    .classic-textarea{padding:10px;font-size:14px;min-height:80px}
+    
+    /* Buttons */
+    button{padding:10px 12px;font-size:13px;min-height:44px}
+    .hint-btn{font-size:12px;margin-top:6px}
+    .hint-content{padding:8px 10px;font-size:12px}
+    
+    /* Feedback */
+    .feedback{padding:10px;font-size:13px;margin-top:8px}
+    .answer{padding:10px;font-size:13px}
+    
+    /* Announcement */
+    .announcement{padding:14px 16px;margin:16px 0;border-left-width:3px}
+    .announcement-content{font-size:13px;line-height:1.6}
+    
+    /* Visual questions */
+    .visual-container{padding:8px;margin:12px 0}
+    .visual-container > div{width:100%!important;max-width:100%!important}
+    .visual-container svg{max-height:200px}
+    
+    /* vis9 - İki grafik alt alta */
+    .vis9-container{flex-direction:column!important;gap:16px!important}
+    .vis9-container svg{width:100%!important;max-width:100%!important;height:auto!important;min-width:0!important}
+    
+    /* Modal */
+    .modal-panel{max-width:95%;padding:16px;margin:10px}
+    .modal-stats{grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
+    .stat-box{padding:12px}
+    .stat-value{font-size:20px}
+    .stat-label{font-size:11px}
+    
+    /* Footer */
+    .footbar{flex-direction:column;gap:8px;padding:12px 0}
+    .footbar .muted{text-align:center;font-size:11px}
+    .score{font-size:11px;padding:5px 8px}
+    
+    /* Images and SVG */
+    img{max-width:100%!important;height:auto!important}
+    
+    /* Classic answer */
+    .classic-answer{padding:10px;font-size:13px}
+  }
+  
+  /* Küçük mobil cihazlar */
+  @media (max-width:375px){
+    .container{padding:8px}
+    h1{font-size:16px}
+    .sub{font-size:10px}
+    .section-title{font-size:15px}
+    .section-number{width:28px;height:28px;font-size:12px}
+    .qcard{padding:10px 8px}
+    .qno{font-size:9px;padding:3px 6px}
+    .qtitle{font-size:13px}
+    .toolbar button{font-size:11px;padding:6px 8px}
+    .modal-panel{padding:12px}
+    .announcement{padding:12px}
+    .announcement-content{font-size:12px}
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="brand">
+        <img class="logo" src="https://cdn.pau.edu.tr/BIYS/siteler/ybs/logo/logoTR.png" alt="PAÜ YBS Logo" />
+        <div class="brand-txt">
+          <h1>YBS 441 – Veri Madenciliği Teknikleri Final Çalışma Soruları</h1>
+          <div class="sub" id="subtitle">Final Sınavı Çalışma Soruları • "Cevabı Göster" ile açıklamaları aç.</div>
+        </div>
+      </div>
+      <div class="toolbar">
+        <a href="index.html" style="text-decoration:none;display:inline-block;">
+          <button class="ghost" style="display:flex;align-items:center;gap:6px;" title="Ana Sayfaya Dön">
+            <i class="fas fa-home" style="font-size:14px;"></i>
+            <span>Ana Sayfa</span>
+          </button>
+        </a>
+        <button id="btnRevealAll">Tüm Cevapları Göster</button>
+        <button id="btnHideAll" class="ghost">Tüm Cevapları Gizle</button>
+        <button id="btnScore" class="primary">Puanımı Hesapla</button>
+        <button id="btnReset" class="ghost">Seçimleri Sıfırla</button>
+        <button id="btnTheme" class="switch">🌙 / ☀️</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" id="quiz"></main>
+
+  <footer>
+    <div class="container footbar">
+      <div class="muted">YBS 441 - Veri Madenciliği Teknikleri • Arş. Gör.Berker DAL</div>
+      <div class="score" id="scoreBox">Skor: – / 0</div>
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <div id="reportModal" class="modal">
+    <div class="modal-backdrop" onclick="closeModal()"></div>
+    <div class="modal-panel">
+      <div style="text-align:center;margin-bottom:20px">
+        <h3 style="font-size:20px;font-weight:700;margin-bottom:8px">Performans Raporu</h3>
+        <p class="muted" style="font-size:13px">Test tamamlandı. İşte sonuçların:</p>
+      </div>
+      <div class="modal-stats">
+        <div class="stat-box" style="background:rgba(22,163,74,0.1);border-color:var(--ok)">
+          <div class="stat-value" style="color:var(--ok)" id="correctCountDisplay">0</div>
+          <div class="stat-label">Doğru</div>
+        </div>
+        <div class="stat-box" style="background:rgba(220,38,38,0.1);border-color:var(--bad)">
+          <div class="stat-value" style="color:var(--bad)" id="wrongCountDisplay">0</div>
+          <div class="stat-label">Yanlış</div>
+        </div>
+        <div class="stat-box" style="background:rgba(107,114,128,0.1)">
+          <div class="stat-value" style="color:var(--muted)" id="emptyCountDisplay">0</div>
+          <div class="stat-label">Boş</div>
+        </div>
+      </div>
+      <div style="margin-top:20px;padding:12px;background:rgba(107,114,128,0.1);border-radius:8px;font-size:13px;color:var(--muted)">
+        <p>Sayfadaki soruların cevapları ve detaylı açıklamaları açıldı. Hatalarınızı inceleyebilirsiniz.</p>
+      </div>
+      <div style="margin-top:20px;text-align:right">
+        <button onclick="closeModal()" class="primary">Cevapları İncele</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+// --- VERİ HAVUZU ---
+const dyQuestions = [
+    { 
+        id: "dy1", 
+        q: "Lojistik regresyon, bağımlı değişkenin sürekli sayısal bir değer olduğu (örn: ev fiyatı) durumlarda değil, sınıflandırma problemlerinde kullanılır.", 
+        a: true, 
+        hint: "Algoritmanın isminde 'Regresyon' geçmesi seni yanıltmasın. Amacımız 'Ne kadar?' sorusuna mı yoksa 'Hangisi?' sorusuna mı cevap vermek?", 
+        exp: "<strong>DOĞRU.</strong> Lojistik regresyon, ismine rağmen bir <strong>Sınıflandırma</strong> algoritmasıdır. Çıktısı sürekli bir sayı değil, kategorik bir olasılıktır (0 veya 1)." 
+    },
+    {
+        id: "dy_beta",
+        q: "Lojistik regresyonda bir bağımsız değişkenin katsayısı (Beta) negatif ise, bu değişkenin değerinin artması, sonucun '1' olma olasılığını (Odds) artırır.",
+        a: false,
+        hint: "Negatif korelasyon ne demektir? Biri artarken diğeri ne olur?",
+        exp: "<strong>YANLIŞ.</strong> Beta katsayısı negatif ise, değişken ile sonuç arasında ters ilişki vardır. Değişken arttıkça, olayın gerçekleşme olasılığı (Odds) <strong>azalır</strong>."
+    },
+    { 
+        id: "dy2", 
+        q: "Sigmoid fonksiyonu, modelin ürettiği sonsuz aralıktaki sayıları $(-\\infty, +\\infty)$ alıp, yorumlanabilir bir olasılık değerine $[0, 1]$ dönüştürür.", 
+        a: true, 
+        hint: "Olasılık değeri negatif veya 1'den büyük olabilir mi? Bu fonksiyonun görevi çıktıyı 'normalize' etmektir.", 
+        exp: "<strong>DOĞRU.</strong> Sigmoid, 'S' şeklinde bir eğridir ve herhangi bir girdiyi 0 ile 1 arasına sıkıştırarak, model çıktısının 'olasılık' olarak yorumlanmasını sağlar." 
+    },
+    { 
+        id: "dy3", 
+        q: "Sınıfların dağılımı dengesizse (örn: %99 Sağlam, %1 Hatalı), modelin 'Accuracy' (Doğruluk) skoru modelin başarısını ölçmek için kullanılması en uygun metriktir.", 
+        a: false, 
+        hint: "Bir model hiç düşünmeden sürekli 'Sağlam' tahmini yaparsa, bu veri setinde %99 başarı alır. Peki bu model işe yarar mı?", 
+        exp: "<strong>YANLIŞ.</strong> Dengesiz veride Accuracy yanıltıcıdır (Accuracy Paradoksu). Model azınlık sınıfını (hatalıları) hiç bulamasa bile %99 doğru çıkabilir. F1-Score veya AUC kullanılmalıdır." 
+    },
+    { 
+        id: "dy4", 
+        q: "KNN algoritmasında K=1 seçilirse (En yakın 1 komşu), model varyansı düşer ve 'Underfitting' (Eksik Öğrenme) riski artar.", 
+        a: false, 
+        hint: "Karar verirken sadece tek bir kişiye danışırsan, o kişi hatalıysa sen de hata yaparsın. Bu durum modeli 'aşırı hassas' mı yapar yoksa 'kayıtsız' mı?", 
+        exp: "<strong>YANLIŞ.</strong> Tam tersi! K=1 iken model aşırı hassaslaşır, verideki gürültüyü bile ezberler. Bu durum Yüksek Varyans ve <strong>Overfitting (Aşırı Öğrenme)</strong> yaratır." 
+    },
+    { 
+        id: "dy5", 
+        q: "Type I Hata (False Positive), 'Yalancı Alarm' olarak da bilinir; gerçekte negatif olan bir duruma modelin pozitif demesidir.", 
+        a: true, 
+        hint: "Yangın yokken yangın alarmının çalması durumunu düşün. Alarm 'Pozitif' sinyal veriyor ama gerçek durum 'Negatif'.", 
+        exp: "<strong>DOĞRU.</strong> False Positive (Yanlış Pozitif), olmayan bir şeyi var gibi göstermektir (Örn: Sağlıklı birine hasta demek)." 
+    },
+    { 
+        id: "dy6", 
+        q: "KNN algoritması 'Tembel Öğrenen' (Lazy Learner) olduğu için, eğitim (training) aşaması çok uzun sürer ancak tahmin (test) aşaması anlıktır.", 
+        a: false, 
+        hint: "Tembel bir öğrenci ders çalışır mı (eğitim yapar mı), yoksa sınav anında mı (testte mi) kitapları karıştırır?", 
+        exp: "<strong>YANLIŞ.</strong> KNN 'Tembel'dir çünkü eğitimde hiçbir şey yapmaz (süre ~0). Ancak test anında tüm hesaplamayı yapar, bu yüzden asıl <strong>yavaş olan kısım test aşamasıdır</strong>." 
+    },
+    { 
+        id: "dy7", 
+        q: "Standart Lojistik Regresyon modeli 'Lineer Sınıflandırıcı' (Linear Classifier) ailesine girer, yani sınıfları ayıran sınır bir doğru (veya düzlem) şeklindedir.", 
+        a: true, 
+        hint: "Formülün içindeki $\\beta_0 + \\beta_1X$ kısmı bir doğru denklemi midir yoksa eğri denklemi mi?", 
+        exp: "<strong>DOĞRU.</strong> Sigmoid fonksiyonu eğrisel olsa da, karar sınırı (Decision Boundary) doğrusaldır. Veriyi düz bir çizgiyle ikiye ayırmaya çalışır." 
+    },
+    { 
+        id: "dy8", 
+        q: "Specificity (Özgüllük) metriği, modelin 'Pozitif' sınıfları ne kadar doğru tahmin ettiğini ölçer.", 
+        a: false, 
+        hint: "Recall (Duyarlılık) pozitifleri yakalar. Specificity ise onun zıttıdır, madalyonun diğer yüzüdür.", 
+        exp: "<strong>YANLIŞ.</strong> Specificity, <strong>Negatif</strong> sınıfların (sağlıklı, normal, suçsuz vb.) ne kadarının doğru tespit edildiğini ölçer." 
+    },
+    { 
+        id: "dy9", 
+        q: "KNN algoritmasında her zaman 'Öklid Mesafesi' kullanmak zorundayız, başka bir mesafe ölçümü kullanılamaz.", 
+        a: false, 
+        hint: "Şehir blokları arasında kuş uçuşu (Öklid) mu gidersin, yoksa sokakları (Manhattan) mı takip edersin? Veriye göre değişmez mi?", 
+        exp: "<strong>YANLIŞ.</strong> Verinin türüne göre Manhattan, Minkowski veya Hamming gibi farklı mesafe ölçüleri kullanılabilir ve bazen daha iyi sonuç verir." 
+    },
+    { 
+        id: "dy10", 
+        q: "Log Loss (Cross-Entropy), model sadece yanlış tahmin yaptığında değil, doğru tahmini 'düşük olasılıkla' (güvensiz) yaptığında da ceza puanı yazar.", 
+        a: true, 
+        hint: "Sınavda doğru şıkkı işaretledin ama 'Emin değilim' dedin. Log Loss bunu fark eder mi?", 
+        exp: "<strong>DOĞRU.</strong> Log Loss, sadece sonucun doğruluğuna değil, modelin o sonuca ne kadar <strong>güvenle (olasılıkla)</strong> ulaştığına da bakar. Emin olmadan yapılan doğrular da, emin olup yapılan yanlışlar da skoru etkiler." 
+    },
+    {
+        id: "dy11",
+        q: "Naive Bayes algoritmasına 'Naive' (Saf) denmesinin nedeni, tüm özelliklerin (niteliklerin) birbirinden tamamen bağımsız olduğunu varsaymasıdır.",
+        a: true,
+        hint: "Gerçek hayatta 'Hava Durumu' ile 'Nem' birbirinden bağımsız mıdır? Algoritma bunu göz ardı mı eder?",
+        exp: "<strong>DOĞRU.</strong> Naive Bayes, hesaplama kolaylığı için özelliklerin birbirinden bağımsız olduğunu (Independence Assumption) varsayar. Bu varsayım gerçek hayatta nadiren tutsa da, algoritma pratikte şaşırtıcı derecede iyi çalışır."
+    },
+    {
+        id: "dy12",
+        q: "Karar ağaçlarında bir düğümün (node) 'Entropi' değeri 0 ise, o düğümdeki örneklerin yarısı 'Evet', yarısı 'Hayır' sınıfındandır (Maksimum düzensizlik).",
+        a: false,
+        hint: "Entropi 'Düzensizlik' ölçüsüdür. Düzensizlik 0 ise, ortamda karışıklık var mıdır yoksa her şey aynı mıdır?",
+        exp: "<strong>YANLIŞ.</strong> Entropi=0 demek, o düğümün tamamen <strong>Saf (Pure)</strong> olduğu, yani içindeki tüm örneklerin aynı sınıfa ait olduğu anlamına gelir. %50-%50 durumu maksimum belirsizliktir ve Entropi 1 olur."
+    },
+    {
+        id: "dy13",
+        q: "Naive Bayes algoritmasında çok küçük olasılıkların çarpımı sonucu oluşan 'Underflow' problemini çözmek için, olasılıkların logaritması alınarak çarpma işlemi toplamaya dönüştürülür.",
+        a: true,
+        hint: "0.0001 * 0.0001 işlemi bilgisayarın hassasiyetini zorlar mı? Logaritma kuralı: log(a*b) = log(a) + log(b).",
+        exp: "<strong>DOĞRU.</strong> Bilgisayarlar çok küçük sayıları (0.0000...) saklamakta zorlanır. Log-Uzayı (Log-Space) kullanılarak çarpma işlemi toplamaya çevrilir ve hassasiyet kaybı önlenir."
+    },
+    {
+        id: "dy14",
+        q: "Karar Ağaçlarında 'Budama' (Pruning) işlemi, ağacın eğitim verisini aşırı ezberlemesini (Overfitting) engellemek için yapılır.",
+        a: true,
+        hint: "Ağaç çok dallanıp budaklanırsa her detayı öğrenir. Gereksiz dalları kesmek (budamak) ne işe yarar?",
+        exp: "<strong>DOĞRU.</strong> Ağaç derinleştikçe verideki gürültüyü de öğrenmeye başlar. Budama işlemi (Pre-pruning veya Post-pruning), ağacı sadeleştirerek genelleme yeteneğini artırır."
+    },
+    {
+        id: "dy15",
+        q: "Yapay Sinir Ağlarında kullanılan 'ReLU' (Rectified Linear Unit) aktivasyon fonksiyonu, negatif girdileri 0'a dönüştürürken, pozitif girdileri olduğu gibi bırakır.",
+        a: true,
+        hint: "ReLU fonksiyonunun grafiğini hatırla: $f(x) = max(0, x)$. Eksi değerlere ne yapar?",
+        exp: "<strong>DOĞRU.</strong> ReLU, hesaplama basitliği ve Gradyan Kaybolması (Vanishing Gradient) sorununu azaltması nedeniyle modern ağlarda sıkça kullanılır."
+    },
+    {
+        id: "dy16",
+        q: "Destek Vektör Makineleri (SVM) sadece doğrusal olarak ayrılabilen verilerde çalışır; doğrusal olmayan verileri asla sınıflandıramaz.",
+        a: false,
+        hint: "Veriyi düz bir çizgiyle ayıramıyorsak ne yaparız? Boyutunu artırıp (Kernel Trick) orada kesebilir miyiz?",
+        exp: "<strong>YANLIŞ.</strong> SVM, 'Kernel Trick' (Çekirdek Hilesi) sayesinde veriyi daha yüksek boyutlu bir uzaya taşıyarak doğrusal olmayan (non-linear) sınırları da başarıyla çizebilir."
+    },
+    {
+        id: "dy17",
+        q: "YSA'da 'Öğrenme Oranı' (Learning Rate) çok yüksek seçilirse, model minimum hatayı bulmak yerine sürekli hedefi ıskalayarak (overshooting) kararsızlaşabilir.",
+        a: true,
+        hint: "Dağdan aşağı inerken dev adımlar atarsan çukurun dibinde durabilir misin yoksa karşı yamaca mı savrulursun?",
+        exp: "<strong>DOĞRU.</strong> Yüksek öğrenme oranı, modelin minimum noktayı aşmasına (overshoot) ve kaybın (loss) artmasına neden olabilir. Çok düşük olursa da öğrenme çok yavaşlar."
+    },
+    {
+        id: "dy18",
+        q: "İyi bir kümeleme işleminde, 'Küme İçi Benzerliğin' (Intra-class) düşük, 'Kümeler Arası Benzerliğin' (Inter-class) yüksek olması hedeflenir.",
+        a: false,
+        hint: "Bir ailenin fertleri (küme içi) birbirine benzemeli midir yoksa benzememeli mi? Peki farklı aileler (kümeler arası)?",
+        exp: "<strong>YANLIŞ.</strong> Tam tersi olmalıdır. İyi bir kümelemede; küme içi elemanlar birbirine çok benzemeli (Yüksek Intra-class similarity), kümeler birbirinden çok farklı olmalıdır (Düşük Inter-class similarity)."
+    },
+    {
+        id: "dy19",
+        q: "DBSCAN algoritması, K-Means'ten farklı olarak küme sayısını (K) önceden belirlememizi gerektirmez; verinin yoğunluğuna göre kümeleri kendisi bulur.",
+        a: true,
+        hint: "K-Means'e 'bana 3 küme ver' dersin. DBSCAN'e 'bana yoğun bölgeleri bul' dersin. Hangisi daha esnek?",
+        exp: "<strong>DOĞRU.</strong> DBSCAN, yoğunluk tabanlı çalıştığı için kaç küme oluşacağını verinin yapısına göre kendi belirler. K-Means ise 'K' sayısını parametre olarak ister."
+    },
+    {
+        id: "dy20",
+        q: "Hiyerarşik kümeleme işleminde, Dendrogram ağacının 'yüksekliği' (y-ekseni), kümelerin birbirine olan uzaklığını veya benzemezliğini temsil eder.",
+        a: true,
+        hint: "Ağacın dalları ne kadar yukarıda birleşiyorsa, o kümeler birbirine o kadar yakın mıdır, uzak mı?",
+        exp: "<strong>DOĞRU.</strong> Dendrogramın dikey ekseni mesafeyi gösterir. Dallar ne kadar yüksekte birleşiyorsa, kümeler arasındaki fark (benzemezlik) o kadar büyüktür. Aşağıda birleşenler birbirine çok benzerdir."
+    },
+    {
+        id: "dy21",
+        q: "Apriori algoritması, sık öğe setlerini (frequent itemsets) bulmak için veritabanını sadece 2 kez tarar, bu yüzden çok hızlıdır.",
+        a: false,
+        hint: "Apriori, her bir 'k' elemanlı aday seti oluşturmak için veritabanını tekrar tekrar tarar mı? Yoksa FP-Growth mu 2 kez tarar?",
+        exp: "<strong>YANLIŞ.</strong> Apriori algoritması, her adımda (1-li, 2-li, 3-lü setler...) veritabanını tekrar tarar (k kez scan). Veritabanını sadece 2 kez tarayan algoritma <strong>FP-Growth</strong> algoritmasıdır."
+    },
+    {
+        id: "dy22",
+        q: "Birliktelik kurallarında 'Lift' değeri 1 ise, X ve Y ürünleri arasında hiçbir ilişki yoktur (Bağımsızdırlar).",
+        a: true,
+        hint: "Lift = P(X ve Y) / (P(X) * P(Y)). Eğer olaylar bağımsızsa bu oran ne olur?",
+        exp: "<strong>DOĞRU.</strong> Lift=1 olması, X'in gerçekleşmesinin Y'nin gerçekleşme olasılığını değiştirmediğini, yani iki ürünün satışının birbirinden bağımsız olduğunu gösterir."
+    }
+];
+
+const blankQuestions = [
+    { id: "bq1", q: "Gerçekte hasta olan (Pozitif) bir kişiye testin 'sağlıklı' (Negatif) demesi durumuna, yani hastalığın gözden kaçırılmasına ... denir.", a: ["false negative", "yanlış negatif", "type 2", "tip 2", "type ii"], hint: "Modelin 'Negatif' dediği ama aslında 'Yanlış' olduğu durum.", exp: "False Negative (Yanlış Negatif)" },
+    { id: "bq2", q: "Lojistik regresyon parametrelerini (katsayıları) bulurken, En Küçük Kareler (EKK) yerine, verinin gözlenme ihtimalini en yükseğe çıkaran ... yöntemi kullanılır.", a: ["mle", "maximum likelihood", "maksimum olabilirlik","en çok olabilirlik"], hint: "Olasılığı (Likelihood) ne yapmaya çalışıyoruz?", exp: "MLE (Maximum Likelihood Estimation)" },
+    { id: "bq3", q: "Precision ve Recall değerlerinin harmonik ortalamasını alarak, iki metrik arasında denge kuran başarı ölçütüne ... denir.", a: ["f1", "f1 score", "f1 skoru","f1-skoru", "f1-score", "f1-skor"], hint: "Hem kesinlik hem duyarlılık önemliyse tek bir sayıya bakmak için bunu kullanırız.", exp: "F1-Score" },
+    { id: "bq4", q: "KNN algoritması mesafe temelli olduğu için, büyük sayısal değere sahip değişkenlerin (örn: Maaş), küçük değerli değişkenleri (örn: Yaş) ezmemesi adına mutlaka ... işlemi yapılmalıdır.", a: ["normalizasyon", "normalization", "ölçeklendirme", "scaling", "min-max", "ölçekleme", "normalize etme"], hint: "Tüm değişkenleri [0,1] gibi ortak bir aralığa getirme işlemi.", exp: "Normalizasyon (Scaling)" },
+    { id: "bq5", q: "İkili sınıflandırma yerine çok sınıflı (örn: Kedi, Köpek, Kuş) bir bağımlı değişkenimiz varsa, Sigmoid yerine ... fonksiyonu kullanılır.", a: ["softmax"], hint: "Olasılıkların toplamının 1 olmasını sağlayan, çoklu çıktı fonksiyonu.", exp: "Softmax Fonksiyonu" },
+    { id: "bq6", q: "Veri setindeki değişken (boyut) sayısı arttıkça, verinin seyrelmesi ve mesafe hesaplarının anlamını yitirmesi sorununa ... denir.", a: ["curse of dimensionality", "boyut laneti", "boyutluluk laneti","çok boyutluluk laneti", "boyutluluğun laneti", "çok boyutluluğun laneti"], hint: "Çok fazla özellik (feature) eklemenin yarattığı paradoks.", exp: "Curse of Dimensionality (Boyut Laneti)" },
+    { id: "bq7", q: "Modelin eğitim verisini ezberlemesine Overfitting denir. Tam tersine, modelin çok basit kalıp verideki ilişkiyi hiç öğrenememesine ise ... denir.", a: ["underfitting", "eksik öğrenme"], hint: "Ders çalışmayan öğrenci konuyu 'eksik' öğrenir.", exp: "Underfitting (Eksik Öğrenme)" },
+    { id: "bq8", q: "Karmaşıklık matrisi ... problemlerinde kullanılan sonuç gösteren ve performans metrikleri hesap edilen bir tablodur.", a: ["sınıflandırma", "sınıflama", "classification"], hint: "Makine öğrenmesi altındaki hangi kategoride kullanıyorduk?", exp: "Sınıflandırma (Classification) problemlerinde modelin performansını ölçtüğümüz ana tablomuzdu." },
+    { id: "bq9", q: "Modelin karmaşıklığını azaltmak ve Overfitting'i önlemek için, katsayılara ceza ekleme işlemine ... (L1/L2) denir.", a: ["regularization", "düzenlileştirme", "regülarizasyon"], hint: "Modeli 'regüle' etmek, düzene sokmak.", exp: "Regularization (Düzenlileştirme)" },
+    { id: "bq10", q: "Karar Ağaçlarında, bir düğümü bölmek için hangi niteliğin seçileceğine karar verirken, Entropideki düşüş miktarını ölçen ... metriği kullanılır.", a: ["bilgi kazancı", "information gain", "gain","bilgi"], hint: "Bölme işleminden sonra ne kadar 'bilgi' kazandık?", exp: "Bilgi Kazancı (Information Gain)" },
+    { id: "bq11", q: "Naive Bayes algoritmasında, eğitim setinde hiç görülmeyen bir kelimenin olasılığının 0 çıkmasını ve tüm hesabı sıfırlamasını önlemek için ... Düzeltmesi (Smoothing) kullanılır.", a: ["laplace", "laplacian", "additive"], hint: "Pay ve paydaya küçük bir sayı ekleyerek 0'dan kurtulma tekniği. Ünlü bir Fransız matematikçinin adı.", exp: "Laplace Smoothing (Laplace Düzeltmesi)" },
+    { id: "bq12", q: "Karar ağaçlarında 'safsızlık' (impurity) ölçüsü olarak Entropi'ye alternatif olarak sıkça kullanılan ve hesaplaması daha hızlı olan metriğe ... İndeksi denir.", a: ["gini"], hint: "G ile başlar, ekonomide gelir dağılımı adaletsizliğini ölçmek için de kullanılır.", exp: "Gini İndeksi" },
+    { id: "bq13", q: "Yapay Sinir Ağlarında, hatayı (Loss) çıkış katmanından giriş katmanına doğru geriye taşıyarak türevleri hesaplama işlemine ... denir.", a: ["geri yayılım", "backpropagation", "backprop", "back propagation", "geriye yayılım"], hint: "İleri gidip tahmin yaptık, şimdi hatayı düzeltmek için 'geriye' dönüyoruz.", exp: "Geri Yayılım (Backpropagation)" },
+    { id: "bq14", q: "SVM algoritmasında, veriyi doğrusal olarak ayrılamadığı düşük boyuttan, ayrılabilir olduğu daha yüksek bir boyuta taşıma işlemine ... denir.", a: ["kernel", "çekirdek", "kernel trick", "çekirdek hilesi", "kernel hilesi"], hint: "3 türünü simülasyonda görmüştük. Bu yöntemle veriye boyut kazandırıp araya bir düzlem sokmaya çalışıyorduk.", exp: "Kernel Trick (Çekirdek Hilesi)" },
+    { id: "bq15", q: "Yapay Sinir Ağlarında ağırlıkları (weights) güncelleyerek hata fonksiyonunun en alt noktasına (minimum) ulaşmaya çalışan optimizasyon algoritmasına ... denir.", a: ["gradyan inişi", "gradient descent"], hint: "Eğimin (türevin) tersi yönünde aşağı inmek.", exp: "Gradyan İnişi (Gradient Descent)" },
+    {
+        id: "bq_silhouette",
+        q: "Kümeleme kalitesini ölçmek için kullanılan, hem küme içi sıkılığı hem de kümeler arası ayrımı -1 ile +1 arasında tek bir değerle ifade eden metriğe ... denir.",
+        a: ["silhouette", "silüet", "silüet skoru", "silhouette skoru"],
+        hint: "Skoru 1'e yakınsa kümeleme iyi gözükür. Elbow yöntemine ek olarak beraberce bakılır. ",
+        exp: "Silhouette Skoru"
+    },
+    { id: "bq16", q: "K-Means algoritmasında en uygun küme sayısını (K) belirlemek için, hata kareler toplamının (WCSS) grafiğindeki kırılma noktasını incelediğimiz ... Yöntemi kullanılır.", a: ["elbow", "dirsek"], hint: "Bir uzvumuzun hareketine benziyordu :).", exp: "Elbow (Dirsek) Yöntemi" },
+    { id: "bq17", q: "DBSCAN algoritması çalışırken mesafe yerine verinin ... özelliğini temel alır, bu sayede gürültüyü ayıklayabilir.", a: ["yoğunluk", "density"], hint: "Noktaların birbirine ne kadar sıkışık olduğu.", exp: "Yoğunluk (Density)" },
+    { id: "bq18", q: "Hiyerarşik kümelemede, iki küme arasındaki en kısa mesafeyi baz alarak birleştirme yapan bağlantı yöntemine ... denir.", a: ["tek bağlantı", "single linkage", "tekli bağlantı","simple linkage"], hint: "En yakın komşuları birleştirir.", exp: "Tekli Bağlantı (Single Linkage)" },
+    { id: "bq19", q: "Hiyerarşik kümelemede, iki küme birleştirilirken oluşan varyans artışını (kareler toplamı) minimize etmeye çalışan yönteme ... denir.", a: ["ward", "ward's", "ward metodu", "ward yöntemi"], hint: "W ile başlar. Varyansı en az artıranları birleştirir.", exp: "Ward Yöntemi" },
+    { id: "bq20", q: "Bir ürünün veya ürün grubunun veritabanındaki tüm alışverişler içinde görülme sıklığına (olasılığına) ... denir.", a: ["destek", "support"], hint: "Bir ürünün ne kadar 'popüler' olduğunu gösteren temel metrik.", exp: "Destek (Support)" },
+    { id: "bq21", q: "X ürününü alanların, Y ürününü de alma olasılığına (koşullu olasılık) ... denir.", a: ["güven", "confidence"], hint: "Kuralın ne kadar 'güvenilir' olduğunu, X'i alanların yüzde kaçının Y'yi de aldığını gösterir.", exp: "Güven (Confidence)" },
+    { id: "bq22", q: "FP-Growth algoritması, Apriori'nin aksine aday (candidate) oluşturmaz; bunun yerine veriyi sıkıştırılmış bir ağaç yapısı olan ... üzerinde tutar.", a: ["fp-tree", "fp tree", "frequent pattern tree"], hint: "Algoritmanın ismindeki ağaç yapısı.", exp: "FP-Tree (Frequent Pattern Tree)" }
+];
+
+const mcQuestions = [
+    { id: "mc1", q: "Bir hastanede 'Kanser Teşhisi' yapan bir yapay zeka modeli geliştiriyorsunuz. Hangi hatayı yapmak, hasta hayatı açısından daha kabul edilemezdir ve bu yüzden hangi metriğe odaklanmalısınız?", options: ["False Positive kötüdür -> Precision'a odaklanılmalı.", "False Negative kötüdür -> Recall'a odaklanılmalı.", "İkisi de eşittir -> Accuracy'ye odaklanılmalı.", "Hata önemsizdir -> Hıza odaklanılmalı."], correct: 1, hint: "Sağlıklı birine 'Hastasın' dersen (FP) test tekrarı yapılır, çözülür. Ama hasta birine 'Sağlıklısın' dersen (FN) tedavi gecikir ve hasta ölebilir. Hangisi daha kritik?", exp: "<strong>False Negative kötüdür -> Recall.</strong> Ölümcül hastalıklarda en büyük risk hastalığın gözden kaçmasıdır (False Negative). Bu riski minimize etmek için 'Recall' (Duyarlılık) metriği maksimize edilmelidir." },
+    { id: "mc2", q: "Aşağıdakilerden hangisi KNN algoritmasının dezavantajlarından biri olarak kabul edilir?", options: ["Eğitim (training) süresinin çok uzun olması.", "Veri dağılımı hakkında önceden varsayım (Normallik vb.) yapması.", "Büyük veri setlerinde tahmin (test) süresinin ve bellek kullanımının çok yüksek olması.", "Sadece doğrusal problemleri çözebilmesi."], correct: 2, hint: "KNN 'Tembel' olduğu için tüm veriyi sırtında taşır (bellek) ve her soruda tüm veriyi tek tek kontrol eder (hız). Veri büyürse ne olur?", exp: "<strong>Büyük veri setlerinde yavaştır.</strong> KNN tüm veriyi hafızada tutar ve her yeni tahmin için tüm veri setiyle mesafe hesaplar. Veri büyüdükçe bu işlem çok maliyetli hale gelir." },
+    { id: "mc3", q: "Confusion Matrix'te TP=50, FP=50, FN=0, TN=100 değerleri var. Modelin 'Precision' (Kesinlik) değeri kaçtır?", options: ["0.50 (%50)", "1.00 (%100)", "0.75 (%75)", "0.25 (%25)"], correct: 0, hint: "Modelin 'Pozitif' dediği tüm durumları düşün. Bunların içinde kaç tanesi gerçekten pozitif? Precision, modelin pozitif tahminlerinin ne kadarının doğru olduğunu ölçer. Modelin pozitif dediği toplam sayı nedir?", exp: "<strong>0.50</strong>. Precision = TP / (TP + FP) = 50 / (50 + 50) = 50/100 = 0.5. Modelin 'Pozitif' dediği her 2 kişiden sadece 1'i gerçekten pozitif." },
+    { id: "mc4", q: "Bir sınıflandırma modelinin ROC eğrisi, grafiğin tam ortasından geçen diyagonal (köşegen) çizginin üzerindeyse, bu ne anlama gelir?", options: ["Mükemmel bir modeldir (AUC=1).", "Model rastgele tahmin yapıyordur (Yazı-Tura atıyor gibi, AUC=0.5).", "Model tersine öğrenmiştir, her şeyi yanlış biliyordur.", "Veri setinde aşırı öğrenme (Overfitting) vardır."], correct: 1, hint: "Bir modelin sınıfları ayırt etme gücü yoksa, True Positive Rate ile False Positive Rate arasındaki ilişki nasıl olur? Yazı-tura atarken doğru tahmin oranı ne olur?", exp: "<strong>Model rastgele tahmin yapıyordur.</strong> AUC=0.5 değeri, modelin sınıfları birbirinden ayıramadığını, başarısının yazı-tura atmakla eşdeğer olduğunu gösterir." },
+    {
+    id: "mc5",   q: "Bir lojistik regresyon modelinde bir bağımsız değişken için β katsayısı <strong>0.7</strong> olarak tahmin edilmiştir. Bu katsayıya ilişkin <strong>Odds Ratio (OR)</strong> değeri <code>exp(0.7) ≈ 2.01</code> olarak hesaplanmıştır.<br><br>\ Aşağıdaki yorumlardan hangisi <strong>doğrudur</strong>?", options: ["Bağımsız değişken 1 birim arttığında, bağımlı değişkenin olasılığı yaklaşık %70 artar.", "Bağımsız değişken 1 birim arttığında, olayın gerçekleşme ihtimali yaklaşık 2 katına çıkar.", "Bağımsız değişken ile bağımlı değişken arasında doğrusal bir ilişki vardır.","Bağımsız değişkenin etkisi yalnızca katsayının işaretine bakılarak yorumlanabilir."], correct: 1, hint: "Lojistik regresyonda yüzde yorumları doğrudan β üzerinden yapılmaz. 'Kaç kat artar/azalır?' yorumu hangi büyüklük üzerinden yapılır?", exp: "<strong>Doğru cevap:</strong> 2) Bağımsız değişken 1 birim arttığında, olayın gerçekleşme ihtimali yaklaşık 2 katına çıkar.<br><br>\ <strong>Açıklama:</strong><br>\ Lojistik regresyonda β katsayısının işareti etkinin yönünü (artırıcı/azaltıcı) gösterir; ancak <strong>etkinin büyüklüğü</strong> doğrudan β üzerinden yorumlanmaz.<br><br>\ Etki büyüklüğü, <strong>Odds Ratio (OR = exp(β))</strong> ile yorumlanır:<br>\ • OR &gt; 1 → Olayın gerçekleşme ihtimali artar<br>\ • OR &lt; 1 → Olayın gerçekleşme ihtimali azalır<br>\ • OR = 1 → Etki yoktur<br><br>\ Bu soruda OR ≈ 2.01 olduğundan, ilgili değişken 1 birim arttığında olayın gerçekleşme ihtimali yaklaşık <strong>2 katına çıkmaktadır</strong>.<br><br>\ <strong>Not (kritik):</strong> Lojistik regresyonda olasılık (% probability) değil, <strong>odds</strong> yorumlanır. Bu nedenle \"%70 artar\" gibi yorumlar hatalıdır."},
+    { id: "mc6", q: "Standart KNN yerine 'Ağırlıklı (Weighted) KNN' kullanıldığında, algoritmanın karar verme mekanizması nasıl değişir?", options: ["Sadece K tane komşuya bakmaz, tüm veri setine bakar.", "Komşuların oyları eşit sayılmaz; yakın olanın oyu uzak olandan daha değerli olur.", "Mesafe hesaplamak yerine olasılık hesaplar.", "K değeri otomatik olarak belirlenir."], correct: 1, hint: "Standart KNN demokrasidir (her komşu 1 oy). Ağırlıklı KNN'de 'Bana yakın olanın sözü daha çok geçer' mantığı vardır.", exp: "<strong>Yakın olanın oyu değerlidir.</strong> Standart KNN'de en yakın 3 komşunun hepsi 1 oy hakkına sahiptir. Weighted KNN'de ise komşunun oyu, merkeze olan uzaklığının tersi (1/distance) ile çarpılır." },
+    { id: "mc7", q: "ROC Eğrisinin altında kalan alan (AUC) 1.0 olduğunda bu neyi ifade eder?", options: ["Modelin hiçbir ayırt ediciliği yoktur.", "Model mükemmeldir, tüm Pozitif ve Negatifleri hatasız ayırmıştır.", "Modelde aşırı öğrenme (Overfitting) riski yoktur.", "Eşik değeri (Threshold) 1.0 seçilmiştir."], correct: 1, hint: "AUC skoru 0 ile 1 arasındadır. Eğer bir model hiç hata yapmadan tüm pozitifleri yakalayıp hiç yanlış alarm vermiyorsa, ROC eğrisi grafiğin hangi bölgesinde olur? Bu durumda AUC değeri ne olur?", exp: "<strong>Model mükemmeldir.</strong> AUC=1.0, modelin %100 başarıyla tüm pozitifleri ve negatifleri doğru ayırdığını gösterir (İdeal Model)." },
+    { id: "mc8", q: "İki farklı modelin performansını karşılaştırırken, F1-Score metriğini kullanmak Accuracy (Doğruluk) metriğine göre ne zaman daha avantajlıdır?", options: ["Veri seti çok küçük olduğunda.", "Sınıflar dengeli dağıldığında (%50-%50).", "Veri setinde sınıf dengesizliği (Imbalance) olduğunda.", "Modelin eğitim süresi önemli olduğunda."], correct: 2, hint: "Düşün: Veri setinde %99 negatif, %1 pozitif olsa ve model her zaman 'negatif' dese, Accuracy değeri ne olur? Bu durumda model gerçekten başarılı mıdır? F1-Score ise hem pozitif hem negatif tahminlerin doğruluğuna bakar mı?", exp: "<strong>Sınıf dengesizliği olduğunda.</strong> Accuracy, dengesiz veride çoğunluk sınıfını kayırır. F1-Score ise hem Precision hem Recall'u içerdiği için azınlık sınıfının başarısını da dikkate alır ve daha adil bir kıyaslama sağlar." },
+    // YENİ SORU: Imbalanced Data & Teknik
+    {
+        id: "mc_imbalance_tech",
+        q: "1000 hastanın 995'i sağlıklı, 5'i kanserdir (Aşırı Dengesiz Veri). Modelin 'Herkes Sağlıklı' diyerek kolaya kaçmasını engellemek için eğitim sırasında (training) aşağıdaki tekniklerden hangisi uygulanabilir?",
+        options: ["Veriyi normalize etmek (Scaling).", "PCA ile boyut indirgemek.", "Azınlık sınıfına (Kanser) daha yüksek ağırlık (Class Weight) vermek.", "K-Fold Cross Validation kullanmak."],
+        correct: 2,
+        hint: "Model eğitilirken hatalar cezalandırılır. Eğer azınlık sınıfındaki (kanser) hataların cezasını artırırsanız, model bu sınıfı daha fazla dikkate alır mı? Yoksa görmezden gelmeye devam eder mi?",
+        exp: "<strong>Azınlık sınıfına yüksek ağırlık vermek (Class Weighting).</strong> Dengesiz veri setlerinde, azınlık sınıfındaki hataların cezasını artırmak (veya çoğunluk sınıfını azaltmak), modelin azınlık sınıfını ciddiye almasını sağlar."
+    },
+    { id: "mc9", q: "Bir karar ağacı düğümünde (node), 10 adet 'Evet' ve 10 adet 'Hayır' örneği bulunmaktadır. Yani tam bir belirsizlik durumu vardır. Bu düğümün Entropi değeri kaçtır?", options: ["0.0", "0.5", "1.0", "sonsuz"], correct: 2, hint: "Entropi, bir düğümdeki belirsizliği ölçer. Eğer bir düğümde sınıflar eşit dağılmışsa (50-50), bu durumda belirsizlik minimum mu maksimum mu? Entropi değeri bu durumda en düşük mü yoksa en yüksek mi olur?", exp: "<strong>1.0</strong>. İkili sınıflandırmada sınıfların oranı %50-%50 ise belirsizlik maksimumdur ve Entropi en yüksek değeri olan 1'i alır. (Not: Eğer sınıf sayısı 2'den fazlaysa Entropi 1'i geçebilir)." },
+    { id: "mc10", q: "Naive Bayes algoritması temel olarak hangi istatistiksel teoreme dayanır?", options: ["Merkezi Limit Teoremi", "Bayes Teoremi", "Büyük Sayılar Yasası", "Pisagor Teoremi"], correct: 1, hint: "Bu algoritma, bir olayın gerçekleşme olasılığını, başka bir olayın gerçekleştiği bilgisiyle güncellemek için kullanılır. Örneğin: 'E-posta spam içeriyorsa, belirli kelimelerin görülme olasılığı nedir?' gibi koşullu olasılıkları hesaplar. Hangi teorem bu tür koşullu olasılık hesaplamalarını sağlar?", exp: "<strong>Bayes Teoremi.</strong> Algoritma, $P(A|B) = \\frac{P(B|A) \\cdot P(A)}{P(B)}$ formülünü kullanarak koşullu olasılıkları hesaplar." },
+    { id: "mc11", q: "Karar ağaçlarında ağaç derinliği (depth) çok arttığında ve yaprak düğümlerde çok az sayıda örnek kaldığında, model hangi probleme en yatkın hale gelir?", options: ["Underfitting (Eksik Öğrenme)", "Overfitting (Aşırı Öğrenme)", "Bias (Yanlılık) Artışı", "Bilgi Kazancı Düşüşü"], correct: 1, hint: "Ağaç her bir örneği tek tek ayırt edecek kadar dallanırsa ne olur? Geneli mi görür, ezberler mi?", exp: "<strong>Overfitting (Aşırı Öğrenme).</strong> Ağacın çok derinleşmesi, modelin verideki genel kalıplar yerine gürültüyü ve istisnaları ezberlemesine yol açar. Bu durum test verisinde başarısızlığa neden olur." },
+    {
+        id: "mc_gamma",
+        q: "SVM'de 'Gamma' hiperparametresinin çok YÜKSEK seçilmesi model üzerinde nasıl bir etki yaratır?",
+        options: [
+            "Model çok basit olur, karar sınırı düzleşir (Underfitting).",
+            "Her bir veri noktası çok etkili olur, karar sınırları çok kıvrımlı hale gelir ve eğitim verisine aşırı uyar (Overfitting).",
+            "Modelin eğitim süresi kısalır.",
+            "Marjin genişliği artar."
+        ],
+        correct: 1,
+        hint: "Gamma parametresi, her bir veri noktasının etki alanını kontrol eder. Eğer Gamma çok yüksek seçilirse, bir nokta sadece kendisine çok yakın noktaları mı etkiler, yoksa uzaktaki noktaları da mı? Bu durumda karar sınırı nasıl bir şekil alır?",
+        exp: "<strong>Overfitting riski artar.</strong> Yüksek Gamma, her bir veri noktasının etki alanını daraltır. Bu da karar sınırının her noktanın etrafından dolaşmasına, aşırı kıvrımlı ve karmaşık olmasına neden olur."
+    },
+    { id: "mc13", q: "Yapay Sinir Ağlarında (YSA) gizli katmanlarda 'Aktivasyon Fonksiyonu' kullanılmazsa ne olur?", options: ["Ağ daha hızlı öğrenir.", "Ağ sadece doğrusal (linear) problemleri çözebilir, karmaşık yapıları öğrenemez.", "Ağ aşırı öğrenme (overfitting) yapar.", "Backpropagation çalışmaz."], correct: 1, hint: "Aktivasyon fonksiyonu ağa 'eğrisellik' (non-linearity) katar. O olmazsa, bin tane katman da koysan hepsi tek bir matris çarpımı gibi davranır.", exp: "<strong>Sadece doğrusal problemleri çözebilir.</strong> Aktivasyon fonksiyonu (ReLU, Sigmoid vb.) sisteme non-lineerlik (doğrusal olmama) katar. Bu olmazsa, YSA ne kadar derin olursa olsun, tek katmanlı bir Perceptron'dan (Lineer Regresyon'dan) farksız olur." },
+    { id: "mc14", q: "Geri Yayılım (Backpropagation) algoritması çalışırken, hatanın ağırlıklara göre değişimini hesaplamak için matematikteki hangi kural temel alınır?", options: ["Pisagor Teoremi", "Zincir Kuralı (Chain Rule)", "L'Hopital Kuralı", "Simpson Kuralı"], correct: 1, hint: "Türev alırken iç içe geçmiş fonksiyonları ($f(g(x))$) nasıl türevlersin? Dıştan içe doğru...", exp: "<strong>Zincir Kuralı (Chain Rule).</strong> Hata çıkıştan girişe doğru yayılırken, her katmandaki türevler birbiriyle çarpılarak ilerler (Chain Rule: $\\frac{dz}{dx} = \\frac{dz}{dy} \\cdot \\frac{dy}{dx}$)." },
+    { id: "mc15", q: "Aşağıdakilerden hangisi DBSCAN algoritmasının K-Means algoritmasına göre en belirgin avantajıdır?", options: ["Hesaplama hızının her zaman daha yüksek olması.", "Gürültülü (noise) verileri ve düzensiz şekilli (non-linear) kümeleri tespit edebilmesi.", "Küme sayısını (K) kullanıcının belirlemesine izin vermesi.", "Sadece sayısal verilerle çalışabilmesi."], correct: 1, hint: "K-Means sadece yuvarlak kümeler bulabilir. DBSCAN ise 'hilal' gibi şekilleri tanıyabilir ve gürültüyü çöpe atabilir.", exp: "<strong>Gürültü ve şekil esnekliği.</strong> K-Means küresel (yuvarlak) kümeler bulmaya zorlarken, DBSCAN yoğunluğa baktığı için her türlü şekli (örn: iç içe halkalar) bulabilir ve aykırı değerleri (outlier) kümelemeden ayırabilir." },
+    { id: "mc16", q: "Bir müşteri veri setini kümelere ayırmak istiyorsunuz ancak kaç küme (segment) oluşacağını hiç bilmiyorsunuz. Keşif amaçlı analiz için hangi algoritma küme sayısını (K) zorunlu tutmadığı için daha uygundur?", options: ["K-Means", "Hiyerarşik Kümeleme", "Lojistik Regresyon", "Naive Bayes"], correct: 1, hint: "Ağaç yapısını (Dendrogram) oluşturup istediğin yerden kesebileceğin yöntem hangisi?", exp: "<strong>Hiyerarşik Kümeleme.</strong> Bu yöntem, verinin hiyerarşik yapısını (Dendrogram) çıkarır. Başlangıçta K sayısı vermeniz gerekmez; dendrogramı inceleyerek en mantıklı kesim noktasını (küme sayısını) sonradan seçebilirsiniz. (DBSCAN de bir seçenektir ancak şıklarda Hiyerarşik var)." },
+    { id: "mc17", q: "Hiyerarşik kümelemede 'Complete Linkage' (Tam Bağlantı) yöntemi, iki küme arasındaki mesafeyi nasıl hesaplar?", options: ["İki kümedeki en yakın noktalar arasındaki mesafeyi alır.", "İki kümedeki en uzak noktalar arasındaki mesafeyi alır.", "İki kümenin merkezleri (centroid) arasındaki mesafeyi alır.", "İki kümedeki tüm noktaların ortalamasını alır."], correct: 1, hint: "İki küme birleştirilirken, eğer en kötü senaryoyu (en uzak noktaları) baz alırsanız, bu kümelerin birbirinden ne kadar uzak olduğunu garanti edersiniz. Bu yaklaşım kümeleri daha sıkı mı yoksa daha gevşek mi tutar?", exp: "<strong>En uzak noktalar.</strong> Complete Linkage, iki kümenin birbirine en uzak iki elemanı arasındaki mesafeyi baz alır. Bu yöntem, kümelerin çapını minimize etmeye çalışır ve daha sıkı, küresel kümeler oluşturma eğilimindedir." },
+    { id: "mc18", q: "DBSCAN algoritmasında 'MinPts' (Minimum Points) parametresi için, eğer veri setimiz 2 boyutluysa (2D), genel kabul görmüş pratik kurala göre MinPts en az kaç seçilmelidir?", options: ["1", "2", "4", "10"], correct: 2, hint: "MinPts, bir noktanın 'yoğun bölge' sayılması için etrafında kaç komşu olması gerektiğini belirler. Boyut sayısı arttıkça, bu değer nasıl değişmelidir? 2 boyutlu veri için, bir noktanın etrafında en az kaç komşu olmalı ki o bölge 'yoğun' kabul edilsin?", exp: "<strong>4</strong>. Pratik kural olarak MinPts değeri genellikle boyut sayısının 2 katı seçilir. 2 boyutlu veri için bu değer 4'tür. Çok küçük seçilirse gürültüden etkilenir, çok büyük seçilirse kümeler birleşir." },
+    { id: "mc19", q: "DBSCAN için en uygun 'Epsilon' (Eps) değerini belirlemek amacıyla kullanılan 'k-mesafe' (k-distance) grafiğinde, doğru Epsilon değeri grafiğin neresinde aranır?", options: ["Grafiğin en yüksek noktasında.", "Grafiğin en düşük noktasında.", "Grafiğin keskin bir şekilde büküldüğü 'Dirsek' (Elbow) noktasında.", "Grafiğin düzleştiği son noktada."], correct: 2, hint: "k-mesafe grafiğinde, mesafe değerleri başlangıçta yavaş artar, sonra aniden sıçrar. Bu sıçrama noktası ne anlama gelir? Bu noktadan önce ve sonra veri yapısında nasıl bir değişim olur?", exp: "<strong>Dirsek (Elbow) noktasında.</strong> k-mesafe grafiği çizildiğinde, mesafenin aniden artmaya başladığı kırılma noktası (dirsek), optimum Epsilon değeri olarak kabul edilir." },
+    { id: "mc20", q: "Aşağıdakilerden hangisi Apriori algoritmasının en büyük dezavantajıdır?", options: ["Çok fazla bellek kullanması.", "Aday setleri (Candidate Generation) oluştururken çok fazla zaman ve işlem gücü harcaması.", "Sadece sayısal verilerle çalışması.", "Küçük veri setlerinde başarısız olması."], correct: 1, hint: "Apriori algoritması, önce 2'li, sonra 3'lü, sonra 4'lü ürün kombinasyonlarını (aday setleri) oluşturur. Eğer 1 milyon farklı ürün varsa, bu kombinasyonların sayısı nasıl artar? Her kombinasyon için veritabanını taramak ne kadar sürer?", exp: "<strong>Aday setleri oluşturma maliyeti.</strong> Apriori, sık öğe setlerini bulmak için sürekli 'aday' kombinasyonlar üretir ve bunları doğrulamak için veritabanını tekrar tekrar tarar. Büyük veride bu işlem (Candidate Generation) darboğaz yaratır." },
+    { id: "mc21", q: "Bir kuralın Lift değeri 2.5 çıkmıştır (Lift > 1). Bu durum X ve Y ürünleri için ne ifade eder?", options: ["X ve Y birbirini ikame eden (rakip) ürünlerdir.", "X alanların Y alma ihtimali, genel ortalamaya göre 2.5 kat artmıştır (Pozitif İlişki).", "X ve Y arasında ilişki yoktur.", "X satıldığında Y satılmamaktadır."], correct: 1, hint: "Lift değeri, X ve Y'nin birlikte görülme olasılığının, bunların bağımsız olarak görülme olasılıklarına oranıdır. Eğer Lift = 1 ise ne anlama gelir? Lift > 1 ise bu oran ne anlama gelir?", exp: "<strong>Pozitif İlişki (2.5 kat artış).</strong> Lift değerinin 1'den büyük olması, X'in varlığının Y'nin satış ihtimalini artırdığını (pozitif korelasyon) gösterir." },
+    { id: "mc22", q: "FP-Growth algoritmasının adımları düşünüldüğünde, FP-Tree oluşturulduktan sonra kurallar nasıl çıkartılır?", options: ["Ağaç yukarıdan aşağıya (Kökten yaprağa) taranarak koşullu desen tabanları (Conditional Pattern Bases) oluşturulur.", "Ağaç aşağıdan yukarıya (Yapraktan köke) taranarak koşullu desen tabanları (Conditional Pattern Bases) oluşturulur.", "Rastgele düğümler seçilerek.", "Ağaçtaki tüm düğümlerin ortalaması alınarak."], correct: 1, hint: "FP-Tree'de bir yaprak düğüm (örn: 'Bira') düşünün. Bu ürünü alan müşterilerin, bu ürünü almadan önce hangi ürünleri aldığını bulmak istiyorsunuz. Ağacı hangi yönde tararsanız bu bilgiyi bulabilirsiniz? Kökten yaprağa mı, yoksa yapraktan köke mi?", exp: "<strong>Aşağıdan yukarıya (Bottom-Up).</strong> FP-Growth, her bir öğe için ağacın altından başlayıp köke doğru giderek 'Koşullu Desen Tabanlarını' (Conditional Pattern Bases) oluşturur ve sık setleri buradan türetir." }
+];
+
+const visualQuestions = [
+    {
+        id: "vis1",
+        q: "Aşağıdaki ROC grafiğinde Kırmızı (Model A) ve Mavi (Model B) eğrilerini inceleyin. Hangi model daha başarılıdır ve neden?",
+        svg: `
+            <svg viewBox="0 0 300 300" style="background:#fff;border-radius:8px">
+                <line x1="40" y1="260" x2="260" y2="260" stroke="#000" stroke-width="2"/>
+                <line x1="40" y1="260" x2="40" y2="40" stroke="#000" stroke-width="2"/>
+                <text x="130" y="290" font-size="14">False Positive Rate</text>
+                <text x="10" y="150" font-size="14" transform="rotate(-90 10,150)">True Positive Rate</text>
+                <line x1="40" y1="260" x2="260" y2="40" stroke="#ccc" stroke-dasharray="5"/>
+                <path d="M40,260 Q100,200 260,40" fill="none" stroke="#ef4444" stroke-width="3"/>
+                <text x="180" y="180" fill="#ef4444" font-weight="bold">Model A</text>
+                <path d="M40,260 Q40,40 260,40" fill="none" stroke="#2563eb" stroke-width="3"/>
+                <text x="80" y="80" fill="#2563eb" font-weight="bold">Model B</text>
+            </svg>
+        `,
+        options: ["Model A daha iyidir çünkü çizgi daha düzdür.", "Model B daha iyidir çünkü sol üst köşeye daha yakındır (AUC daha büyük).", "İkisi de aynıdır.", "Model A daha iyidir çünkü False Positive oranı daha yüksektir."],
+        correct: 1,
+        hint: "ROC analizinde 'En İyi Nokta' neresidir? Sol üst köşe mi (Hepsini yakala, hiç yanlış yapma), sağ alt köşe mi? Hangi çizgi o 'Cennet' noktasına daha yakın?",
+        exp: "<strong>Model B daha iyidir.</strong> ROC eğrisinde sol üst köşe (TPR=1, FPR=0) mükemmeliyeti temsil eder. Mavi çizgi bu köşeye daha yakın olduğu ve altında kalan alan (AUC) daha büyük olduğu için daha başarılıdır."
+    },
+    {
+        id: "vis2",
+        q: "Aşağıdaki grafikte Kırmızı Çizgi modelin tahmin sınırıdır. Bu çizginin her bir veri noktasına (siyah noktalar) değmek için aşırı kıvrımlı olması hangi sorunu gösterir?",
+        svg: `
+            <svg viewBox="0 0 300 200" style="background:#fff;border-radius:8px">
+                <circle cx="20" cy="150" r="4" fill="#333"/><circle cx="50" cy="130" r="4" fill="#333"/><circle cx="80" cy="160" r="4" fill="#333"/><circle cx="110" cy="90" r="4" fill="#333"/><circle cx="140" cy="110" r="4" fill="#333"/><circle cx="170" cy="70" r="4" fill="#333"/><circle cx="200" cy="80" r="4" fill="#333"/><circle cx="230" cy="40" r="4" fill="#333"/><circle cx="260" cy="60" r="4" fill="#333"/>
+                <path d="M20,150 L50,130 L80,160 L110,90 L140,110 L170,70 L200,80 L230,40 L260,60" fill="none" stroke="#dc2626" stroke-width="2"/>
+            </svg>
+        `,
+        options: ["Underfitting (Eksik Öğrenme) - Model çok basit.", "Overfitting (Aşırı Öğrenme) - Model gürültüyü ezberlemiş.", "İdeal Model - Hatasız tahmin yapıyor.", "Doğrusal Regresyon Modeli."],
+        correct: 1,
+        hint: "Modelin amacı 'genel eğilimi' görmek mi, yoksa 'istisnaları' bile ezberlemek mi? Bu çizgi yeni bir veri gelse doğru tahmin yapabilir mi?",
+        exp: "<strong>Overfitting (Aşırı Öğrenme).</strong> Model verinin genel yapısını öğrenmek yerine, her bir noktayı (gürültü dahil) ezberlemeye çalışmış. Bu yüzden çok karmaşık, zikzaklı bir yapı oluşmuş. Genelleme yeteneği düşüktür."
+    },
+    {
+        id: "vis3",
+        q: "Aşağıdaki Confusion Matrix'e göre, toplam 100 veri içinden model kaç tanesini DOĞRU tahmin etmiştir (Accuracy Payı)?",
+        svg: `
+            <svg viewBox="0 0 320 280" style="background:#fff;border-radius:8px">
+                <!-- Grid lines -->
+                <line x1="80" y1="60" x2="80" y2="240" stroke="#333" stroke-width="2"/>
+                <line x1="80" y1="60" x2="240" y2="60" stroke="#333" stroke-width="2"/>
+                <line x1="160" y1="60" x2="160" y2="240" stroke="#333" stroke-width="2"/>
+                <line x1="80" y1="150" x2="240" y2="150" stroke="#333" stroke-width="2"/>
+                
+                <!-- TP (Top Left) -->
+                <rect x="80" y="60" width="80" height="90" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+                <text x="120" y="110" text-anchor="middle" font-size="14" font-weight="bold">TP=40</text>
+                
+                <!-- FP (Top Right) -->
+                <rect x="160" y="60" width="80" height="90" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+                <text x="200" y="110" text-anchor="middle" font-size="14" font-weight="bold">FP=10</text>
+                
+                <!-- FN (Bottom Left) -->
+                <rect x="80" y="150" width="80" height="90" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+                <text x="120" y="200" text-anchor="middle" font-size="14" font-weight="bold">FN=20</text>
+                
+                <!-- TN (Bottom Right) -->
+                <rect x="160" y="150" width="80" height="90" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+                <text x="200" y="200" text-anchor="middle" font-size="14" font-weight="bold">TN=30</text>
+                
+                <!-- Column labels -->
+                <text x="120" y="45" text-anchor="middle" font-size="12" font-weight="bold">Pozitif</text>
+                <text x="200" y="45" text-anchor="middle" font-size="12" font-weight="bold">Negatif</text>
+                
+                <!-- Row labels -->
+                <text x="40" y="110" text-anchor="middle" font-size="12" font-weight="bold">Pozitif</text>
+                <text x="40" y="200" text-anchor="middle" font-size="12" font-weight="bold">Negatif</text>
+                
+                <!-- Main labels -->
+                <text x="160" y="30" text-anchor="middle" font-size="13" font-weight="bold">Tahmin Edilen</text>
+                <text x="20" y="150" text-anchor="middle" font-size="13" font-weight="bold" transform="rotate(-90 20,150)">Gerçek</text>
+            </svg>
+        `,
+        options: ["40 (Sadece TP)", "70 (TP + TN)", "60 (TP + FN)", "90 (TP + TN + FP)"],
+        correct: 1,
+        hint: "Doğru tahminler, matrisin 'Köşegen' (Diagonal) elemanlarıdır. Yani hem gerçekten Evet-Tahmin Evet, hem gerçekten Hayır-Tahmin Hayır olanlar.",
+        exp: "<strong>70 (TP + TN).</strong> Doğru tahminler yeşil kutulardır: True Positive (40) ve True Negative (30). Toplam doğru sayısı 70'tir."
+    },
+    {
+        id: "vis4",
+        q: "Aşağıdaki KNN grafiğinde, K=3 (en yakın 3 komşu) seçildiğinde 'X' noktasının sınıfı ne olur?",
+        svg: `
+            <svg viewBox="0 0 300 200" style="background:#fff;border-radius:8px">
+                <circle cx="130" cy="90" r="8" fill="#2563eb" opacity="0.8"/> <!-- Blue -->
+                <circle cx="160" cy="110" r="8" fill="#2563eb" opacity="0.8"/> <!-- Blue -->
+                <circle cx="150" cy="80" r="8" fill="#dc2626" opacity="0.8"/> <!-- Red -->
+                <circle cx="80" cy="150" r="8" fill="#dc2626" opacity="0.8"/> <!-- Red -->
+                <circle cx="220" cy="50" r="8" fill="#2563eb" opacity="0.8"/> <!-- Blue -->
+                <text x="145" y="105" font-size="24" font-weight="bold" fill="black" text-anchor="middle">X</text>
+                <circle cx="145" cy="95" r="45" fill="none" stroke="#666" stroke-dasharray="4"/>
+                <text x="195" y="95" font-size="12" fill="#666">K=3 Bölgesi</text>
+            </svg>
+        `,
+        options: ["Mavi (Blue)", "Kırmızı (Red)", "Eşitlik (Tie)", "Belirlenemez"],
+        correct: 0,
+        hint: "Kesikli çizgi ile gösterilen dairenin içine bak. Orada kaç tane Mavi, kaç tane Kırmızı var? Çoğunluk kimde?",
+        exp: "<strong>Mavi (Blue).</strong> K=3 bölgesinin (dairenin) içinde 2 tane Mavi, 1 tane Kırmızı nokta var. Oylama sonucu (2 vs 1) Mavi kazanır."
+    },
+    // HAFTA 12 EKLEMELERİ
+    {
+        id: "vis5",
+        q: "Aşağıdaki basit Karar Ağacına göre; 'Hava=Güneşli' ve 'Nem=Yüksek' olduğunda modelin tahmini (kararı) nedir?",
+        svg: `
+            <svg viewBox="0 0 300 200" style="background:#fff;border-radius:8px">
+                <!-- Root -->
+                <rect x="100" y="20" width="100" height="40" rx="5" fill="#f3f4f6" stroke="#333"/>
+                <text x="150" y="45" text-anchor="middle" font-weight="bold">Hava?</text>
+                
+                <!-- Arrows -->
+                <line x1="120" y1="60" x2="80" y2="100" stroke="#333" marker-end="url(#arrow)"/>
+                <text x="85" y="80" font-size="12">Güneşli</text>
+                
+                <line x1="180" y1="60" x2="220" y2="100" stroke="#333"/>
+                <text x="215" y="80" font-size="12">Yağmurlu</text>
+                
+                <!-- Node 2 -->
+                <rect x="30" y="100" width="100" height="40" rx="5" fill="#f3f4f6" stroke="#333"/>
+                <text x="80" y="125" text-anchor="middle" font-weight="bold">Nem?</text>
+                
+                <!-- Leafs -->
+                <rect x="180" y="100" width="80" height="40" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+                <text x="220" y="125" text-anchor="middle" font-weight="bold">Evet</text>
+                
+                <!-- Nem Arrows -->
+                <line x1="60" y1="140" x2="40" y2="170" stroke="#333"/>
+                <text x="35" y="155" font-size="10">Yüksek</text>
+                
+                <line x1="100" y1="140" x2="120" y2="170" stroke="#333"/>
+                <text x="120" y="155" font-size="10">Normal</text>
+                
+                <!-- Nem Leafs -->
+                <rect x="10" y="170" width="60" height="30" rx="5" fill="#fee2e2" stroke="#dc2626"/>
+                <text x="40" y="190" text-anchor="middle" font-size="12">Hayır</text>
+                
+                <rect x="90" y="170" width="60" height="30" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+                <text x="120" y="190" text-anchor="middle" font-size="12">Evet</text>
+            </svg>
+        `,
+        options: ["Evet (Oynanır)", "Hayır (Oynanmaz)", "Belirsiz", "Yağmurlu"],
+        correct: 1,
+        hint: "Ağacın kökünden başla. Önce 'Hava' dalından 'Güneşli' tarafına git. Sonra 'Nem' düğümüne geleceksin. Oradan da 'Yüksek' dalını takip et. Hangi kutuya (yaprağa) ulaştın?",
+        exp: "<strong>Hayır.</strong> Kökten başla -> Hava: Güneşli (Sola git) -> Nem düğümüne geldin -> Nem: Yüksek (Sola git) -> Sonuç: 'Hayır' kutusu."
+    },
+    {
+        id: "vis6",
+        q: "Aşağıdaki 'Entropi Grafiği'nde, tepe noktası (X ekseni = 0.5) neyi ifade etmektedir?",
+        svg: `
+            <svg viewBox="0 0 300 200" style="background:#fff;border-radius:8px">
+                <!-- Axes -->
+                <line x1="40" y1="180" x2="260" y2="180" stroke="#000"/>
+                <line x1="40" y1="180" x2="40" y2="20" stroke="#000"/>
+                
+                <!-- Labels -->
+                <text x="150" y="195" text-anchor="middle" font-size="12">Olasılık (p)</text>
+                <text x="20" y="100" text-anchor="middle" font-size="12" transform="rotate(-90 20,100)">Entropi</text>
+                
+                <text x="40" y="195" font-size="10">0</text>
+                <text x="150" y="195" font-size="10">0.5</text>
+                <text x="260" y="195" font-size="10">1.0</text>
+                
+                <!-- Curve -->
+                <path d="M40,180 Q150,-20 260,180" fill="none" stroke="#7c3aed" stroke-width="3"/>
+                
+                <!-- Dashed line to peak -->
+                <line x1="150" y1="180" x2="150" y2="60" stroke="#ccc" stroke-dasharray="4"/>
+            </svg>
+        `,
+        options: ["Minimum Düzensizlik (Saf Durum)", "Maksimum Düzensizlik (En Yüksek Belirsizlik)", "Overfitting Durumu", "Sıfır Bilgi Kazancı"],
+        correct: 1,
+        hint: "Grafiğin en yüksek noktası Entropinin 1 olduğu yerdir. Bu nokta p=0.5'e (yazı-tura) denk gelir. Bu durumda tahmin yapmak kolay mıdır zor mudur?",
+        exp: "<strong>Maksimum Düzensizlik.</strong> Olasılığın 0.5 olduğu durum (yarı yarıya), sonucun ne olacağını en az tahmin edebildiğimiz, yani belirsizliğin (Entropinin) tavan yaptığı durumdur."
+    },
+    // HAFTA 13 EKLEMELERİ
+    {
+        id: "vis7",
+        q: "Aşağıdaki SVM grafiğinde, daire içine alınmış noktaların SVM tarafından marjini belirleyen kritik noktalar olarak seçildiğini varsayınız. Bu noktalara ne ad verilir?",
+        svg: `
+            <svg viewBox="0 0 300 200" style="background:#fff;border-radius:8px">
+                <!-- Hyperplane & Margins -->
+                <line x1="100" y1="200" x2="200" y2="0" stroke="#000" stroke-width="2"/> <!-- Main Hyperplane -->
+                <line x1="70" y1="200" x2="170" y2="0" stroke="#999" stroke-dasharray="4"/> <!-- Margin 1 (Left) -->
+                <line x1="130" y1="200" x2="230" y2="0" stroke="#999" stroke-dasharray="4"/> <!-- Margin 2 (Right) -->
+                
+                <!-- Regular Data Points (Red Class) -->
+                <circle cx="50" cy="150" r="5" fill="#ef4444"/>
+                <circle cx="100" cy="160" r="5" fill="#ef4444"/>
+                
+                <!-- Marked critical points (assumed margin-defining) -->
+                <circle cx="80" cy="180" r="5" fill="#ef4444" stroke="#000" stroke-width="2"/>
+                <circle cx="80" cy="180" r="9" fill="none" stroke="#666" stroke-dasharray="2"/>
+                
+                <circle cx="100" cy="140" r="5" fill="#ef4444" stroke="#000" stroke-width="2"/>
+                <circle cx="100" cy="140" r="9" fill="none" stroke="#666" stroke-dasharray="2"/>
+                
+                <circle cx="160" cy="140" r="5" fill="#2563eb" stroke="#000" stroke-width="2"/>
+                <circle cx="160" cy="140" r="9" fill="none" stroke="#666" stroke-dasharray="2"/>
+                
+                <!-- Regular Data Points (Blue Class) -->
+                <circle cx="180" cy="40" r="5" fill="#2563eb"/>
+                <circle cx="200" cy="60" r="5" fill="#2563eb"/>
+                <circle cx="230" cy="30" r="5" fill="#2563eb"/>
+            </svg>
+        `,
+        options: [
+            "Merkez Noktalar (Centroids)",
+            "Destek Vektörleri (Support Vectors)",
+            "Aykırı Değerler (Outliers)",
+            "Gürültü (Noise)"
+        ],
+        correct: 1,
+        hint: "SVM karar sınırını çizerken hangi az sayıdaki nokta gerçekten ‘sınırı zorlar’? Marjinin nerede duracağını belirleyen ve modelin çözümünde ‘aktif’ olan bu kritik noktalara hangi isim verilir?",
+        exp: "<strong>Destek Vektörleri (Support Vectors).</strong> Bu soru, daire içine alınan noktaların SVM tarafından marjini belirleyen kritik noktalar olarak seçildiğini varsayıyor. SVM’de bu kritik noktalar <em>destek vektörleri</em> olarak adlandırılır; karar sınırı ve marjin konumu esasen bu noktalar tarafından belirlenir."
+    },
+    {
+        id: "vis8",
+        q: "Aşağıdaki 'Hata (Loss) vs İterasyon' grafiğinde Mavi çizgi (B) ideal öğrenmeyi gösterirken, Kırmızı çizginin (A) sürekli zıplayıp azalmaması neyi ifade eder?",
+        svg: `
+            <svg viewBox="0 0 300 200" style="background:#fff;border-radius:8px">
+                <!-- Axes -->
+                <line x1="40" y1="180" x2="280" y2="180" stroke="#000"/>
+                <line x1="40" y1="180" x2="40" y2="20" stroke="#000"/>
+                <text x="160" y="195" font-size="12">İterasyon (Zaman)</text>
+                <text x="20" y="100" font-size="12" transform="rotate(-90 20,100)">Hata (Loss)</text>
+                
+                <!-- Ideal (Blue) -->
+                <path d="M40,40 Q100,170 280,175" fill="none" stroke="#2563eb" stroke-width="2"/>
+                <text x="200" y="165" fill="#2563eb" font-size="10">Model B</text>
+                
+                <!-- High LR (Red) -->
+                <path d="M40,40 L60,100 L80,50 L100,120 L120,60 L140,110 L160,70 L280,100" fill="none" stroke="#dc2626" stroke-width="2"/>
+                <text x="200" y="90" fill="#dc2626" font-size="10">Model A</text>
+            </svg>
+        `,
+        options: ["Öğrenme Oranı (Learning Rate) çok YÜKSEK.", "Öğrenme Oranı çok DÜŞÜK.", "Model Overfitting yapıyor.", "Veri seti çok küçük."],
+        correct: 0,
+        hint: "Kırmızı çizgi çukurun dibine (minimum hataya) inmeye çalışırken sürekli karşı duvara çarpıp sekiyor gibi. Adımları çok mu büyük?",
+        exp: "<strong>Öğrenme Oranı çok YÜKSEK.</strong> Kırmızı çizgi, adımları çok büyük olduğu için minimum noktayı sürekli ıskalıyor (overshooting) ve kararlı bir şekilde hatayı düşüremiyor. Buna 'Oscillation' veya 'Divergence' denir."
+    },
+    // HAFTA 14 EKLEMELERİ (KÜMELEME GÖRSELİ)
+    {
+        id: "vis9",
+        q: "Aşağıda K-Means algoritması için kullanılan iki farklı değerlendirme grafiği verilmiştir.<br><br>\
+        <strong>Soru:</strong> Bu iki grafiği birlikte değerlendirdiğinizde en uygun küme sayısı (K) kaçtır?",
+        svg: `
+            <div style="
+                display:flex;
+                gap:24px;
+                justify-content:center;
+                align-items:flex-start;
+                flex-wrap:nowrap;
+                width:100%;
+            " class="vis9-container">
+
+            <!-- Elbow Method -->
+            <svg viewBox="0 0 300 200"
+                width="300"
+                height="200"
+                style="background:#fff;border-radius:8px;border:1px solid #eee;flex-shrink:0;min-width:300px;min-height:200px;">
+                <!-- Axes -->
+                <line x1="40" y1="180" x2="280" y2="180" stroke="#000"/>
+                <line x1="40" y1="180" x2="40" y2="20" stroke="#000"/>
+                <text x="160" y="195" font-size="12">Küme Sayısı (K)</text>
+                <text x="15" y="110" font-size="12" transform="rotate(-90 15,110)">Hata (WCSS)</text>
+
+                <!-- Curve -->
+                <polyline points="40,40 80,140 120,160 160,170 200,175 240,178"
+                        fill="none" stroke="#2563eb" stroke-width="2"/>
+                <circle cx="40" cy="40" r="3" fill="#2563eb"/>
+                <circle cx="80" cy="140" r="3" fill="#2563eb"/>
+                <circle cx="120" cy="160" r="3" fill="#2563eb"/>
+                <circle cx="160" cy="170" r="3" fill="#2563eb"/>
+
+                <!-- K labels -->
+                <text x="40" y="195" font-size="10">1</text>
+                <text x="80" y="195" font-size="10">2</text>
+                <text x="120" y="195" font-size="10">3</text>
+                <text x="160" y="195" font-size="10">4</text>
+
+                <text x="90" y="25" font-size="12" font-weight="bold">Dirsek Metodu</text>
+            </svg>
+
+            <!-- Silhouette Score -->
+            <svg viewBox="0 0 300 200"
+                width="300"
+                height="200"
+                style="background:#fff;border-radius:8px;border:1px solid #eee;flex-shrink:0;min-width:300px;min-height:200px;">
+                <!-- Axes -->
+                <line x1="40" y1="180" x2="280" y2="180" stroke="#000"/>
+                <line x1="40" y1="180" x2="40" y2="20" stroke="#000"/>
+                <text x="160" y="195" font-size="12">Küme Sayısı (K)</text>
+                <text x="15" y="120" font-size="12" transform="rotate(-90 15,120)">Silhouette Skoru</text>
+
+                <!-- Curve -->
+                <polyline points="40,140 80,80 120,110 160,135"
+                        fill="none" stroke="#16a34a" stroke-width="2"/>
+                <circle cx="40" cy="140" r="3" fill="#16a34a"/>
+                <circle cx="80" cy="80" r="3" fill="#16a34a"/>
+                <circle cx="120" cy="110" r="3" fill="#16a34a"/>
+                <circle cx="160" cy="135" r="3" fill="#16a34a"/>
+
+                <!-- K labels -->
+                <text x="40" y="195" font-size="10">1</text>
+                <text x="80" y="195" font-size="10">2</text>
+                <text x="120" y="195" font-size="10">3</text>
+                <text x="160" y="195" font-size="10">4</text>
+
+                <text x="70" y="25" font-size="12" font-weight="bold">Silhouette Skoru</text>
+            </svg>
+
+            </div>
+        `,
+        options: ["1", "2", "3", "4"],
+        correct: 1,
+        hint: "Dirsek metodunda hata düşüşünün belirgin şekilde yavaşladığı nokta ile silhouette skorunun maksimum olduğu K değerini birlikte düşün.",
+        exp: "<strong>Doğru cevap: 2</strong><br><br>\
+        Dirsek grafiğinde K=2’den sonra WCSS düşüşü belirgin biçimde yavaşlamaktadır. \
+        Silhouette grafiğinde ise en yüksek skor K=2’de elde edilmiştir. \
+        Bu iki ölçüt birlikte değerlendirildiğinde en uygun küme sayısı <strong>K=2</strong>’dir."
+    },
+    {
+        id: "vis10",
+        q: "Aşağıdaki 'İç İçe Halkalar' (Donut) veri setini hangi algoritma doğru şekilde iki farklı kümeye (Mavi ve Kırmızı) ayırabilir?",
+        svg: `
+            <svg viewBox="0 0 300 200" style="background:#fff;border-radius:8px">
+                <!-- Inner Circle -->
+                <circle cx="150" cy="100" r="30" fill="none" stroke="#ef4444" stroke-width="4" stroke-dasharray="4,4"/>
+                <text x="150" y="105" text-anchor="middle" fill="#ef4444" font-weight="bold">Küme A</text>
+                
+                <!-- Outer Circle -->
+                <circle cx="150" cy="100" r="70" fill="none" stroke="#2563eb" stroke-width="4" stroke-dasharray="4,4"/>
+                <text x="150" y="45" text-anchor="middle" fill="#2563eb" font-weight="bold">Küme B</text>
+            </svg>
+        `,
+        options: ["K-Means (Doğrusal sınırlar çizer, başarısız olur)", "DBSCAN (Yoğunluk tabanlıdır, şekli takip eder)", "Lojistik Regresyon", "Linear SVM"],
+        correct: 1,
+        hint: "K-Means veriyi pasta dilimi gibi keser. Ancak burada kümeler iç içe geçmiş. Yoğunluğu ve sürekliliği takip eden algoritma hangisiydi?",
+        exp: "<strong>DBSCAN.</strong> K-Means merkez tabanlı olduğu için bu tür iç içe geçmiş (non-linear) yapıları ayıramaz, ortadan ikiye böler. DBSCAN ise yoğunluk takibi yaparak halkanın şeklini algılar ve doğru ayırır."
+    },
+    {
+        id: "vis11",
+        q: "Aşağıdaki Dendrogram grafiğinde, eğer 3 küme elde etmek isterseniz, kesim çizgisini (Threshold) hangi aralıktan çekmelisiniz?",
+        svg: `
+            <svg viewBox="0 0 300 200" style="background:#fff;border-radius:8px">
+                <!-- Axis -->
+                <line x1="30" y1="10" x2="30" y2="180" stroke="#000"/>
+                <text x="10" y="100" transform="rotate(-90 10,100)" font-size="10">Mesafe</text>
+                
+                <!-- Tree Structure -->
+                <!-- Cluster 1 (Left) -->
+                <line x1="50" y1="180" x2="50" y2="100" stroke="#2563eb" stroke-width="2"/>
+                <line x1="90" y1="180" x2="90" y2="100" stroke="#2563eb" stroke-width="2"/>
+                <line x1="50" y1="100" x2="90" y2="100" stroke="#2563eb" stroke-width="2"/>
+                <line x1="70" y1="100" x2="70" y2="60" stroke="#2563eb" stroke-width="2"/>
+                
+                <!-- Cluster 2 (Middle) -->
+                <line x1="130" y1="180" x2="130" y2="120" stroke="#16a34a" stroke-width="2"/>
+                <line x1="170" y1="180" x2="170" y2="120" stroke="#16a34a" stroke-width="2"/>
+                <line x1="130" y1="120" x2="170" y2="120" stroke="#16a34a" stroke-width="2"/>
+                <line x1="150" y1="120" x2="150" y2="60" stroke="#16a34a" stroke-width="2"/>
+                
+                <!-- Merge 1 & 2 -->
+                <line x1="70" y1="60" x2="150" y2="60" stroke="#333" stroke-width="2"/>
+                <line x1="110" y1="60" x2="110" y2="20" stroke="#333" stroke-width="2"/>
+                
+                <!-- Cluster 3 (Right - distinct) -->
+                <line x1="220" y1="180" x2="220" y2="20" stroke="#dc2626" stroke-width="2"/>
+                <line x1="110" y1="20" x2="220" y2="20" stroke="#333" stroke-width="2"/>
+                
+                <!-- Cut Line Option A (High) -->
+                <line x1="40" y1="30" x2="280" y2="30" stroke="#999" stroke-dasharray="4"/>
+                <text x="285" y="35" font-size="10" fill="#666">A</text>
+                
+                <!-- Cut Line Option B (Mid) -->
+                <line x1="40" y1="80" x2="280" y2="80" stroke="#999" stroke-dasharray="4"/>
+                <text x="285" y="85" font-size="10" fill="#666">B</text>
+                
+                <!-- Cut Line Option C (Low) -->
+                <line x1="40" y1="140" x2="280" y2="140" stroke="#999" stroke-dasharray="4"/>
+                <text x="285" y="145" font-size="10" fill="#666">C</text>
+            </svg>
+        `,
+        options: ["A Çizgisi (Üst Kısım)", "B Çizgisi (Orta Kısım)", "C Çizgisi (Alt Kısım)", "En dipten"],
+        correct: 1,
+        hint: "B çizgisini takip et. Kaç tane dikey dalı (bacağı) kesiyor? Mavi dal, Yeşil dal ve Kırmızı dal.",
+        exp: "<strong>B Çizgisi (Orta Kısım).</strong> B çizgisinden yatay bir kesik attığımızda, ağacın 3 ana dalını (Sol Mavi grup, Orta Yeşil grup ve Sağ Kırmızı tekli) kestiğimizi görürüz. Bu da 3 küme oluşturur."
+    },
+    // HAFTA 15 EKLEMELERİ (BİRLİKTELİK KURALI)
+    {
+        id: "vis12",
+        q: "Aşağıdaki FP-Tree (Frekans Ağacı) görselinde, kökten başlayıp 'Süt -> Ekmek -> Yumurta' yolunu izlediğinizde, 'Yumurta' düğümündeki sayı 2'dir. Bu neyi ifade eder?",
+        svg: `
+            <svg viewBox="0 0 300 200" style="background:#fff;border-radius:8px">
+                <!-- Root -->
+                <circle cx="150" cy="20" r="15" fill="#f3f4f6" stroke="#333"/>
+                <text x="150" y="25" text-anchor="middle" font-size="10">Root</text>
+                
+                <!-- Level 1: Süt: 7 -->
+                <line x1="150" y1="35" x2="100" y2="80" stroke="#333"/>
+                <circle cx="100" cy="80" r="20" fill="#dcfce7" stroke="#16a34a"/>
+                <text x="100" y="85" text-anchor="middle" font-size="10">Süt:7</text>
+                
+                <!-- Level 2: Ekmek: 5 (Under Süt) -->
+                <line x1="100" y1="100" x2="80" y2="140" stroke="#333"/>
+                <circle cx="80" cy="140" r="20" fill="#dcfce7" stroke="#16a34a"/>
+                <text x="80" y="145" text-anchor="middle" font-size="10">Ek:5</text>
+                
+                <!-- Level 2: Bebek Bezi: 2 (Under Süt) -->
+                <line x1="100" y1="100" x2="120" y2="140" stroke="#333"/>
+                <circle cx="120" cy="140" r="20" fill="#fee2e2" stroke="#dc2626"/>
+                <text x="120" y="145" text-anchor="middle" font-size="10">Bez:2</text>
+                
+                <!-- Level 3: Yumurta: 2 (Under Ekmek) -->
+                <line x1="80" y1="160" x2="80" y2="190" stroke="#333"/>
+                <circle cx="80" cy="190" r="20" fill="#dcfce7" stroke="#16a34a"/>
+                <text x="80" y="195" text-anchor="middle" font-size="10">Yum:2</text>
+                
+                <!-- Other branch -->
+                <line x1="150" y1="35" x2="200" y2="80" stroke="#333"/>
+                <circle cx="200" cy="80" r="20" fill="#f3f4f6" stroke="#333"/>
+                <text x="200" y="85" text-anchor="middle" font-size="10">Bez:1</text>
+            </svg>
+        `,
+        options: ["Sadece Yumurta alanların sayısı 2'dir.", "Süt, Ekmek ve Yumurta'nın birlikte alındığı işlem sayısı 2'dir.", "Ekmek ve Yumurta alanların sayısı 7'dir.", "Toplam işlem sayısı 2'dir."],
+        correct: 1,
+        hint: "Ağaçtaki bir yol (path), o ürünlerin 'birlikte' geçtiği işlemleri temsil eder. Yolun sonundaki sayı, o zincirin tamamının frekansıdır.",
+        exp: "<strong>Süt, Ekmek ve Yumurta'nın birlikte alındığı işlem sayısı 2'dir.</strong> FP-Tree'de bir düğümün sayısı, kökten o düğüme kadar olan ürün grubunun (prefix path) birlikte görülme sıklığını verir."
+    }
+];
+
+const scenarioQuestions = [
+    {
+        id: "sc1",
+        q: "<strong>Senaryo:</strong> Kredi kartı dolandırıcılık tespiti yapıyorsunuz. Veri setinizde işlemlerin %99.9'u Normal, sadece %0.1'i Dolandırıcılık. Eğittiğiniz model <u>her işleme</u> 'Normal' diyerek kolaya kaçıyor.<br><br><strong>Soru:</strong> Bu modelin Accuracy (Doğruluk) skoru nedir ve bu skor neden tehlikelidir?",
+        options: [
+            "Accuracy düşüktür (%0.1), modelin başarısız olduğu hemen anlaşılır.",
+            "Accuracy çok yüksektir (%99.9), bu yüzden model başarılı sanılabilir (Accuracy Paradoksu).",
+            "Accuracy %50'dir, rastgele tahmin yapmıştır.",
+            "Accuracy hesaplanamaz."
+        ],
+        correct: 1,
+        hint: "Hiçbir hırsızı yakalamasan bile, şehirdeki 1 milyon dürüst insana 'dürüst' dediğin için sınavdan 100 üzerinden 99 alıyorsun. Bu başarı gerçek mi?",
+        exp: "<strong>Accuracy %99.9'dur ama yanıltıcıdır.</strong> Model, sadece çoğunluk sınıfını (Normal) tahmin ederek sayısal olarak yüksek bir skor elde eder. Ancak asıl hedef olan dolandırıcıları (Azınlık sınıfı) hiç yakalayamaz. Buna <strong>Accuracy Paradoksu</strong> denir."
+    },
+    {
+        id: "sc2",
+        q: "<strong>Senaryo:</strong> Bir e-ticaret sitesi, müşterinin ürünü alıp almayacağını (Olasılık: 0 ile 1 arası) tahmin ediyor. Şirket, 'Kararsız' müşterileri bile kaçırmak istemiyor; yani müşterinin alım ihtimali az olsa bile ona kupon göndermek istiyor.<br><br><strong>Soru:</strong> Varsayılan karar eşiğini (0.5) nasıl değiştirmelisiniz?",
+        options: [
+            "Eşiği yükseltmeliyim (örn: 0.8). Sadece çok kesin olanlara kupon gitsin.",
+            "Eşiği değiştirmemeliyim (0.5).",
+            "Eşiği düşürmeliyim (örn: 0.2). Kapıyı genişletip daha çok kişiye 'Alacak' (Pozitif) demeliyim.",
+            "Modeli değiştirmeliyim."
+        ],
+        correct: 2,
+        hint: "Biz herkesi içeri alıp kupon vermek istiyoruz. Öyleyse 1 olarak sınıflandırmayı kolaylaştırmalıyız.",
+        exp: "<strong>Eşiği düşürmelisiniz (örn: 0.2).</strong> Eşik değeri düşerse, model daha kolay 'Pozitif' tahmini yapar. Bu sayede 'False Positive' artabilir (almayacaklara da kupon gider) ama 'False Negative' azalır (alacak olanları kaçırmazsınız), ki istenen de budur."
+    },
+    {
+        id: "sc3",
+        q: "<strong>Senaryo:</strong> KNN algoritması ile müşteri segmentasyonu yapıyorsunuz. Veride iki değişken var: <strong>Yıllık Gelir</strong> (0 - 1.000.000 TL) ve <strong>Yaş</strong> (18 - 90). Veriyi normalize etmeden (scaling yapmadan) modele soktunuz.<br><br><strong>Soru:</strong> Bu durumda mesafe hesaplamasında ne olur?",
+        options: [
+            "Her iki değişken eşit ağırlıkta katkı sağlar.",
+            "Yaş değişkeni daha küçük olduğu için mesafeyi o belirler.",
+            "Gelir değişkeni sayısal olarak çok büyük olduğu için mesafeyi domine eder (yutar), yaşın etkisi kaybolur.",
+            "Model hata verir, çalışmaz."
+        ],
+        correct: 2,
+        hint: "Mesafe formülünde: (1.000.000)^2 mi daha büyük etki yaratır, (50)^2 mi? Büyük sayılar küçük sayıları yutar mı?",
+        exp: "<strong>Gelir değişkeni mesafeyi domine eder.</strong> KNN mesafe tabanlıdır. Ölçeklendirme (Normalization) yapılmazsa, sayısal değeri büyük olan sütun (Gelir), matematiksel olarak mesafeyi tek başına belirler. Yaş değişkeni önemsizleşir."
+    },
+    // YENİ SENARYO: Model Seçimi / Hız
+    {
+        id: "sc_model_speed",
+        q: "<strong>Senaryo:</strong> Bir e-ticaret sitesinde 'Anlık Ürün Önerisi' sistemi kuruyorsunuz. Sistemde 10 milyon geçmiş işlem (veri satırı) var. Kullanıcı bir ürüne baktığı anda (50 milisaniyenin altında) ona benzer ürün önerilmeli. Doğruluk (Accuracy) önemli ama Hız (Latency) çok daha kritik.<br><br><strong>Soru:</strong> Bu senaryo için KNN (K=50) mi yoksa Lojistik Regresyon mu tercih edersiniz? Neden?",
+        options: [
+            "KNN tercih ederim. Çünkü eğitimi yoktur, anında devreye alınır.",
+            "Lojistik Regresyon tercih ederim. Çünkü eğitim bittikten sonra tahmin üretmek sadece basit bir formül işlemidir, çok hızlıdır. KNN ise her tahminde 10 milyon satırı taramak zorundadır.",
+            "KNN tercih ederim. Büyük veride en hızlı algoritmadır.",
+            "İkisi de uygun değildir, Hiyerarşik Kümeleme kullanılmalıdır."
+        ],
+        correct: 1,
+        hint: "KNN 'Tembel'dir (Lazy), işi sona (tahmin anına) bırakır. 10 milyon satırla anlık mesafe ölçmek 50ms sürer mi? Lojistik Regresyon ise işi başta (eğitimde) bitirir, elinde sadece bir formül kalır.",
+        exp: "<strong>Lojistik Regresyon tercih edilmelidir.</strong> KNN 'Lazy Learner' olduğu için tüm hesaplama yükü tahmin anındadır (Test Time Cost). 10 milyon veride anlık mesafe hesabı çok yavaştır. Lojistik Regresyon ise 'Eager Learner'dır; eğitimi zordur ama model bir kez katsayıları öğrendikten sonra tahmin üretmek milisaniyeler sürer."
+    },
+    {
+        id: "sc4",
+        q: "<strong>Senaryo:</strong> Naive Bayes ile bir spam filtresi eğittiniz. Ancak test aşamasında, eğitim setinde hiç bulunmayan 'Bitcoin' kelimesini içeren bir e-posta geldi. Algoritma, 'Bitcoin' kelimesinin olasılığını 0 olarak hesapladığı için tüm çarpım sonucunu 0 yaptı ve hata verdi.<br><br><strong>Soru:</strong> Bu 'Sıfır Frekans' sorununu çözmek için hangi teknik uygulanmalıdır?",
+        options: [
+            "Olasılıkları çarpmak yerine toplamak (Log-Trick).",
+            "Laplace Smoothing (Laplace Düzeltmesi) uygulamak.",
+            "Bilinmeyen kelimeleri veri setinden silmek.",
+            "Modeli Karar Ağacı ile değiştirmek."
+        ],
+        correct: 1,
+        hint: "Bir kelime hiç geçmedi diye olasılığına koca bir SIFIR vermek adil mi? Yoksa ona çok küçük de olsa bir şans (pay ve paydaya +1 eklemek gibi) verilmeli mi?",
+        exp: "<strong>Laplace Smoothing.</strong> Bu teknik, tüm kelimelerin sayımına küçük bir sayı (genelde 1) ekleyerek, hiç görülmeyen kelimelerin olasılığının 0 olmasını engeller. Böylece tek bir bilinmeyen kelime tüm tahmin sürecini çökertmez."
+    },
+    {
+        id: "sc5",
+        q: "<strong>Senaryo:</strong> Bir Karar Ağacı modeli eğittiniz. Model, eğitim verisinde %100 başarı (Accuracy) gösteriyor, ancak test verisinde başarı %60'a düşüyor. Ağacın yapısını incelediğinizde çok derin ve karmaşık olduğunu gördünüz.<br><br><strong>Soru:</strong> Bu durumun teknik adı nedir ve çözüm stratejisi ne olmalıdır?",
+        options: [
+            "Durum: Underfitting. Çözüm: Ağacı daha da derinleştirmek.",
+            "Durum: Overfitting. Çözüm: Budama (Pruning) yapmak veya maksimum derinliği sınırlamak.",
+            "Durum: Yanlış Metrik. Çözüm: Accuracy yerine Recall kullanmak.",
+            "Durum: Yüksek Bias. Çözüm: Daha fazla veri toplamak."
+        ],
+        correct: 1,
+        hint: "Model dersi ezberlemiş ama sınavda çakmış. Ağaç o kadar detaycı olmuş ki yapraklarında sadece 1'er örnek var. Bu ağacı biraz 'sadeleştirmek' gerekir mi?",
+        exp: "<strong>Overfitting ve Budama.</strong> Eğitim başarısının çok yüksek, test başarısının düşük olması klasik bir Overfitting belirtisidir. Karar ağaçlarında bu durum, ağacın gürültüyü ezberleyecek kadar derinleşmesiyle oluşur. Çözüm, ağacı budamak (pruning) veya 'max_depth' gibi parametrelerle derinliği sınırlamaktır."
+    },
+    // YENİ SENARYO: SVM Kernel Kararı
+    {
+        id: "sc_svm_kernel",
+        q: "<strong>Senaryo:</strong> Bir sınıflandırma probleminde veriyi görselleştirdiniz ve sınıfların (Kırmızı/Mavi) iç içe geçmiş bir 'sarmal' (spiral) veya 'satranç tahtası' gibi dağıldığını gördünüz. Linear Kernel kullanan bir SVM modelinin başarısı %50 (rastgele tahmin) civarında kaldı.<br><br><strong>Soru:</strong> Sorun nedir ve çözüm için hangi SVM parametresine müdahale edilmelidir?",
+        options: [
+            "Sorun: Veri doğrusal ayrılamıyor. Çözüm: Kernel fonksiyonu 'RBF' (Radial Basis Function) veya 'Polynomial' olarak değiştirilmeli.",
+            "Sorun: C parametresi çok düşüktür. Çözüm: C artırılmalı.",
+            "Sorun: Veri setinde gürültü vardır. Çözüm: Outlier temizliği yapılmalı.",
+            "Sorun: SVM bu tür verilerde çalışmaz. Çözüm: Naive Bayes kullanılmalı."
+        ],
+        correct: 0,
+        hint: "Düz bir kağıda çizilmiş sarmalı, kağıdı kesmeden (doğrusal) tek bir makas darbesiyle ayırabilir misin? Yoksa kağıdı bükmek (Kernel Trick) mi gerekir?",
+        exp: "<strong>Kernel 'RBF' olarak değiştirilmeli.</strong> Veri doğrusal olarak ayrılamıyorsa (Linearly Inseparable), Linear Kernel düz bir çizgi çekmeye çalışır ve başarısız olur. RBF veya Polinom Kernel, veriyi yüksek boyuta taşıyarak (Kernel Trick) bu karmaşık yapıları ayırabilir."
+    },
+    {
+        id: "sc6",
+        q: "<strong>Senaryo:</strong> SVM modeli ile bir sınıflandırma yapıyorsunuz. 'C' parametresini çok küçük (örn: 0.01) seçtiniz. Modelin davranışı nasıl olur?",
+        options: [
+            "Model hatalara çok toleranslı olur, marjin çok genişler ancak sınıflandırma başarısı düşebilir (Underfitting).",
+            "Model hiç hata yapmaz, marjin çok daralır (Overfitting).",
+            "Model hesaplama yapamaz hale gelir.",
+            "Kernel fonksiyonu çalışmaz."
+        ],
+        correct: 0,
+        hint: "C = Ceza. Ceza çok küçükse, öğrenci (model) hata yapmaktan korkar mı? Marjini geniş tutmak için hataları görmezden gelir mi?",
+        exp: "<strong>Underfitting riski artar.</strong> Küçük C değeri, 'Hata yapmaktan korkma, yeter ki marjin geniş olsun' demektir. Bu durumda model çok basit kalabilir ve bazı verileri yanlış sınıflandırmayı göze alarak çok geniş bir sınır çizer (Soft Margin)."
+    },
+    {
+        id: "sc7",
+        q: "<strong>Senaryo:</strong> Çok katmanlı bir Yapay Sinir Ağı eğitiyorsunuz. Eğitim süreci boyunca 'Loss' (Hata) değeri hiç azalmıyor, sabit kalıyor. İncelediğinizde tüm ağırlıkların (weights) başlangıçta '0' olarak atandığını fark ettiniz.<br><br><strong>Soru:</strong> Sorun nedir?",
+        options: [
+            "Öğrenme oranı çok düşüktür.",
+            "Simetri Problemi: Tüm nöronlar aynı işlemi yapar, birbirinden farklılaşamaz ve öğrenemez.",
+            "Veri seti çok küçüktür.",
+            "Aktivasyon fonksiyonu yanlıştır."
+        ],
+        correct: 1,
+        hint: "Herkes aynı yerden başlarsa ve aynı hatayı alırsa, hepsi aynı yöne gitmez mi? Farklı özellikleri kim öğrenecek?",
+        exp: "<strong>Simetri Problemi.</strong> Ağırlıkların hepsi 0 (veya aynı sayı) başlatılırsa, tüm nöronlar aynı gradyanı hesaplar ve aynı şekilde güncellenir. Ağ tek bir nöron gibi davranır ve karmaşık yapıları öğrenemez. Çözüm: Rastgele (Random) başlangıç değerleri atamaktır."
+    },
+    // YENİ SENARYO: Kümeleme Seçimi
+    {
+        id: "sc_cluster_adv",
+        q: "<strong>Senaryo:</strong> Bir siber güvenlik analizi için ağ trafiği verisini kümelemek istiyorsunuz. (1) Saldırı türleri (kümeler) önceden bilinmiyor (K belirsiz). (2) Veride çok sayıda anlık kopma ve hatalı paket (Gürültü/Outlier) var. (3) Saldırılar belli bir geometrik şekle (yuvarlak vb.) sahip değil, zaman içinde uzayan karmaşık yapılar.<br><br><strong>Soru:</strong> K-Means bu problemde neden başarısız olur ve yerine hangi algoritma tercih edilmelidir?",
+        options: [
+            "K-Means gürültüyü kümelere dahil eder ve sadece küresel şekilleri bulabilir. DBSCAN, gürültüyü ayıklar ve yoğunluk tabanlı olduğu için şekil bağımsızdır.",
+            "K-Means çok yavaştır. Hiyerarşik Kümeleme daha hızlıdır.",
+            "K-Means outlierları otomatik temizler ama şekilleri bulamaz. Lojistik Regresyon kullanılmalıdır.",
+            "K-Means uygundur, sadece K değerini büyük seçmek gerekir."
+        ],
+        correct: 0,
+        hint: "K-Means 'her noktayı bir kümeye zorla' mantığındadır (Outlier yönetimi zayıf). Ayrıca 'Merkeze uzaklık' bakar (Şekil kısıtı). DBSCAN neye bakar?",
+        exp: "<strong>DBSCAN tercih edilmelidir.</strong> K-Means'in üç zaafı vardır: (1) K sayısı baştan bilinmelidir, (2) Gürültüyü (Outlier) yönetemez, bir merkeze atar, (3) Sadece dışbükey (convex/yuvarlak) kümeleri bulabilir. DBSCAN ise; K gerektirmez, gürültüyü 'Noise' olarak ayırır ve yoğunluk takibiyle her türlü şekli bulabilir."
+    },
+    {
+        id: "sc8",
+        q: "<strong>Senaryo:</strong> GPS verilerini kullanarak şehirdeki 'Trafik Yoğunluk Bölgelerini' tespit etmek istiyorsunuz. Veri setinde GPS hatalarından kaynaklanan çok sayıda rastgele nokta (Gürültü/Noise) var. Ayrıca trafik bölgeleri yuvarlak değil, yollar boyunca uzanan kıvrımlı şekillerde.<br><br><strong>Soru:</strong> Hangi kümeleme algoritmasını seçmelisiniz?",
+        options: [
+            "K-Means",
+            "DBSCAN ",
+            "Hiyerarşik Kümeleme",
+            "Lineer Regresyon."
+        ],
+        correct: 1,
+        hint: "Hem gürültüyü (noise) yok sayabilen hem de 'yılan' gibi kıvrımlı yolları tek bir küme olarak algılayabilen algoritma hangisi?",
+        exp: "<strong>DBSCAN.</strong> Bu senaryo tam olarak DBSCAN'in uzmanlık alanıdır. K-Means gürültüyü de bir kümeye dahil etmeye çalışır ve kıvrımlı yolları böler. DBSCAN ise yoğunluğu takip ederek kıvrımlı yolları tek küme yapar ve rastgele GPS hatalarını 'Outlier' olarak işaretler."
+    },
+    {
+        id: "sc9",
+        q: "<strong>Senaryo:</strong> Bir süpermarket analizinde 'Ekmek -> Su' kuralı için Güven (Confidence) = %90, ancak Lift = 0.9 olarak hesaplanmıştır. Mağaza müdürü 'Ekmek alanların %90'ı su alıyor, hemen yan yana koyalım' demektedir.<br><br><strong>Soru:</strong> Müdürün kararı doğru mudur, Lift değeri neyi işaret etmektedir?",
+        options: [
+            "Doğrudur, %90 çok yüksek bir orandır.",
+            "Yanlıştır. Lift < 1 olduğu için Ekmek ve Su arasında negatif ilişki vardır (veya ilişki yoktur). Su zaten çok satılan bir ürün olduğu için oran yüksek çıkmaktadır.",
+            "Doğrudur, Lift değeri önemsizdir.",
+            "Yanlıştır, Confidence değeri %100 olmalıdır."
+        ],
+        correct: 1,
+        hint: "Lift 1'den küçükse bu bir birliktelik midir yoksa ayrılık mı? Herkes su alıyorsa, ekmek alanın da su alması 'ekmekten dolayı' mıdır?",
+        exp: "<strong>Yanlıştır, ilişki negatiftir.</strong> Lift < 1 olması, Ekmek alanların Su alma ihtimalinin, normal bir müşterinin Su alma ihtimalinden <strong>daha düşük</strong> olduğunu gösterir. Yüksek Confidence (%90), sadece Suyun genel olarak çok popüler olmasından kaynaklanmaktadır (Coincidence)."
+    },
+
+    // YENİ EKLENEN ÜST DÜZEY BİLİŞ SORULARI
+    {
+        id: "sc10",
+        q: "<strong>Senaryo:</strong> Müşteri Terk (Churn) tahmin modeli geliştirdiniz. Test sonuçları şöyle: Accuracy: %95, Precision: %90, Recall: %10. Şirket 'Giden müşterileri önceden tespit edip onlara promosyon vermek' istemektedir. <br><br><strong>Soru:</strong> Bu modeli canlı sisteme almalı mısınız?",
+        options: [
+            "Evet, %95 Accuracy mükemmel bir başarıdır.",
+            "Hayır. Modelin Recall değeri %10'dur, yani gitmekte olan 100 müşteriden 90'ını kaçırmaktadır. Amaca uygun değildir.",
+            "Evet, Precision %90 olduğu için modelin tahminlerine güvenebiliriz.",
+            "Hayır, Accuracy en az %99 olmalıdır."
+        ],
+        correct: 1,
+        hint: "Amacımız gideni yakalamak (Kapsayıcılık/Recall). Hırsız polis oyununda polis hırsızların %90'ını kaçırıyorsa o polis başarılı mıdır?",
+        exp: "<strong>Hayır, Recall çok düşüktür.</strong> Churn probleminde kritik olan 'gitmekte olanı' yakalamaktır. %10 Recall, potansiyel kayıpların %90'ının tespit edilemediği anlamına gelir. Yüksek Accuracy ve Precision burada yanıltıcıdır."
+    },
+    {
+        id: "sc11",
+        q: "<strong>Senaryo:</strong> Bir sınıflandırma modelinde, yanlışlıkla 'Pozitif' demenin (FP) maliyeti, 'Negatif' demenin (FN) maliyetinden çok daha düşüktür. Ancak modeliniz şu an çok fazla FN (Kaçırma) hatası yapıyor.<br><br><strong>Soru:</strong> Bu durumu düzeltmek için ne yapmalısınız?",
+        options: [
+            "Recall'u artırmalıyım (Eşik değerini düşürerek).",
+            "Precision'ı artırmalıyım (Eşik değerini yükselterek).",
+            "Accuracy'yi artırmalıyım.",
+            "Hiçbir şey yapmamalıyım."
+        ],
+        correct: 0,
+        hint: "FN (Kaçırma) sayısını azaltmak istiyorsun. Yani ağını genişletip daha çok şeyi yakalamak istiyorsun. Bu hangi metriktir?",
+        exp: "<strong>Recall'u artırmalısınız.</strong> FN'in (gözden kaçırmanın) maliyeti yüksekse, modelin kapsayıcılığını (Recall) artırmak gerekir. Bu da genellikle karar eşiğini (threshold) düşürerek yapılır; böylece model daha kolay 'Pozitif' kararı verir."
+    },
+    {
+        id: "sc12",
+        q: "<strong>Senaryo:</strong> 2000 satır ve 1200 sütundan (özellikten) oluşan bir veri setiniz var; Satın aldı-almadı (1-0) tahmin eden bir model geliştirmek istiyorsunuz. Bir analist bu veride doğrudan KNN algoritması kullanmayı önermektedir.<br><br><strong>Soru:</strong> Bu öneriye teknik olarak nasıl itiraz edersiniz?",
+        options: [
+            "KNN sadece sınıflandırma yapar, bu bir regresyon problemidir.",
+            "KNN bu tip veride gayet iyi çalışır, itiraz etmek gereksizdir.",
+            "Boyutluluk Laneti (Curse of Dimensionality) nedeniyle 1200 boyutta mesafe hesapları anlamsızlaşır ve KNN başarısız olur.",
+            "Gözlem sayısı 2000 olduğu için KNN çalışmaz."
+        ],
+        correct: 2,
+        hint: "1200 boyutlu bir uzayda 'yakın komşu' kavramı kalır mı? Noktalar birbirinden çok uzaklaşmaz mı?",
+        exp: "<strong>Boyutluluk Laneti (Curse of Dimensionality).</strong> Boyut sayısı arttıkça uzay hacmi üssel büyür ve veri noktaları seyrekleşir. Bu ortamda tüm noktalar birbirine yaklaşık eşit uzaklıkta görünmeye başlar, bu da mesafe temelli çalışan KNN'in performansını çökertir."
+    },
+    {
+        id: "sc13",
+        q: "<strong>Senaryo:</strong> Lojistik Regresyon modeliniz bir müşteri için %49, diğeri için %51 'Satın Alma' olasılığı hesapladı. Eşik değeriniz 0.5 olduğu için birine 'Almaz', diğerine 'Alır' dedi.<br><br><strong>Soru:</strong> Bu durum hakkında en doğru yorum nedir?",
+        options: [
+            "Model bozuktur, hatalı çalışmaktadır.",
+            "Bu iki müşteri davranışsal olarak çok benzerdir, ancak eşik (threshold) keskin bir sınır çizdiği için farklı sınıflara düşmüşlerdir. Bu sınırda belirsizlik yüksektir.",
+            "0.51 alan müşteri kesinlikle alacaktır, 0.49 alan kesinlikle almayacaktır.",
+            "Veride gürültü vardır."
+        ],
+        correct: 1,
+        hint: "Sınavdan 49 alanla 50 alan öğrenci arasında bilgi farkı devasa mıdır? Yoksa sadece bir çizgi mi vardır?",
+        exp: "<strong>Sınırda belirsizlik.</strong> Olasılıklar birbirine çok yakın olsa da, hard threshold (keskin eşik) nedeniyle sonuçlar zıt çıkabilir. Bu durum modelin hatası değil, eşik tabanlı sınıflandırmanın doğasıdır. Bu bölgedeki tahminlerin güvenilirliği (confidence) düşüktür."
+    },
+    {
+        id: "sc14",
+        q: "<strong>Senaryo:</strong> Naive Bayes kullanarak bir metin sınıflandırma modeli yaptınız. Metindeki kelimeler arasında bariz anlamsal ilişkiler (bağımlılıklar) var (Örn: 'New' ve 'York'). Ancak Naive Bayes, bağımsızlık varsayımına rağmen çok yüksek başarı gösteriyor.<br><br><strong>Soru:</strong> Bu durumu nasıl açıklarsınız?",
+        options: [
+            "Demek ki kelimeler aslında bağımsızmış, biz yanılmışız.",
+            "Naive Bayes, bağımsızlık varsayımı ihlal edilse bile, özellikle sınıflandırma görevlerinde (olasılık sıralaması değişmediği sürece) oldukça dirençli ve başarılı çalışabilir.",
+            "Model aşırı öğrenme (Overfitting) yapmıştır.",
+            "Veri seti çok küçüktür."
+        ],
+        correct: 1,
+        hint: "Bir yalan (varsayım) işe yarıyorsa, sonuç doğru çıkıyorsa, bu yalanın zararı dokunmuş mudur?",
+        exp: "<strong>Naive Bayes dirençlidir.</strong> 'Saf' bağımsızlık varsayımı teoride yanlış olsa da, pratikte (özellikle metin madenciliğinde) modelin doğru sınıfı seçmesi için gereken olasılık sıralamasını (ranking) genellikle bozmaz. Bu yüzden varsayım ihlaline rağmen iyi sonuç verir."
+    },
+    {
+        id: "sc15",
+        q: "<strong>Senaryo:</strong> Bir süpermarket zincirinde birliktelik kuralı madenciliği uygulanmıştır. Aşağıda üç farklı kural ve bu kurallara ait metrikler verilmiştir.<br><br>\
+        <table border='1' cellpadding='6' cellspacing='0' style='border-collapse:collapse; font-size:14px;'>\
+            <tr><th>Kural</th><th>Support</th><th>Confidence</th><th>Lift</th></tr>\
+            <tr><td>{Ekmek} → {Süt}</td><td>0.35</td><td>0.90</td><td>1.0</td></tr>\
+            <tr><td>{Bebek Bezi} → {Islak Mendil}</td><td>0.08</td><td>0.75</td><td>2.10</td></tr>\
+            <tr><td>{Şarap} → {Cips}</td><td>0.03</td><td>0.85</td><td>0.60</td></tr>\
+        </table>\
+        <br>\
+        <strong>Soru:</strong> Bu kurallardan hangisi <strong>ticari açıdan en anlamlı</strong> kuraldır? Neden?",
+        options: [
+            "{Ekmek} → {Süt}, çünkü support ve confidence en yüksek.",
+            "{Bebek Bezi} → {Islak Mendil}, çünkü lift değeri yüksek ve gerçek bir ilişkiyi gösteriyor.",
+            "{Şarap} → {Cips}, çünkü confidence çok yüksek.",
+            "Üçü de eşit derecede anlamlıdır."
+        ],
+        correct: 1,
+        hint: "Confidence tek başına yeterli midir? Lift, birlikte görülmenin tesadüf mü yoksa gerçek bir ilişki mi olduğunu nasıl söyler? Support çok düşükse kural aksiyon almaya değer mi?",
+        exp: "<strong>Doğru cevap:</strong> 2) {Bebek Bezi} → {Islak Mendil}<br><br>\
+        <strong>Gerekçe:</strong><br>\
+        • <strong>{Ekmek} → {Süt}</strong> kuralında support ve confidence yüksek olmasına rağmen lift ≈ 1’dir. Bu, sütün zaten çok satılan bir ürün olduğunu ve ilişkinin büyük ölçüde tesadüfi olabileceğini gösterir (confidence tuzağı).<br><br>\
+        • <strong>{Bebek Bezi} → {Islak Mendil}</strong> kuralında support orta düzeyde olmasına rağmen lift = 2.10’dur. Bu, bebek bezi alanların ıslak mendili tesadüfe kıyasla iki kattan fazla alma eğiliminde olduğunu gösterir. Bu tür kurallar çapraz satış, paket kampanya ve raf yerleşimi için değerlidir.<br><br>\
+        • <strong>{Şarap} → {Cips}</strong> kuralında confidence yüksek görünse bile lift &lt; 1’dir. Bu, iki ürün arasında negatif ya da anlamsız bir ilişki olduğunu gösterir; kural ticari olarak zayıftır.<br><br>\
+        <strong>Özet:</strong> Ticari olarak en anlamlı kural, yalnızca yüksek confidence’a değil, <strong>lift &gt; 1</strong> ile gerçek ilişkiyi gösteren ve yeterli support’a sahip olan kuraldır."
+    },
+
+    {
+        id: "sc16",
+        q: "<strong>Senaryo:</strong> Bir sınıflandırma probleminde veriyi görselleştirdiniz ve sınıfların (Kırmızı/Mavi) iç içe geçmiş bir 'sarmal' (spiral) şeklinde dağıldığını gördünüz. Linear Kernel kullanan bir SVM modelinin başarısı %50 (rastgele tahmin) civarında kaldı.<br><br><strong>Soru:</strong> Çözüm için hangi SVM parametresine müdahale edilmelidir?",
+        options: [
+            "Kernel fonksiyonu 'RBF' (Radial Basis Function) olarak değiştirilmeli.",
+            "C parametresi artırılmalı.",
+            "Veri setindeki gürültü temizlenmeli.",
+            "Naive Bayes kullanılmalı."
+        ],
+        correct: 0,
+        hint: "Düz bir kağıda çizilmiş sarmalı, kağıdı kesmeden (doğrusal) tek bir makas darbesiyle ayırabilir misin? Yoksa uzayı bükmek (Kernel Trick) mi gerekir?",
+        exp: "<strong>Kernel 'RBF' olarak değiştirilmeli.</strong> Veri doğrusal olarak ayrılamıyorsa (Linearly Inseparable), Linear Kernel başarısız olur. RBF Kernel, veriyi yüksek boyuta taşıyarak (Kernel Trick) bu karmaşık, sarmal yapıları ayırabilir."
+    }
+];
+const classicQuestions = [
+    {
+        id: "cq1",
+        q: "Spam Filtreleme örneği üzerinden Type I Hata (FP) ve Type II Hata (FN) kavramlarını açıklayınız. Bir e-posta sağlayıcısı hangisinden daha çok kaçınmalıdır?",
+        hint: "Kullanıcı açısından düşün: Önemli bir iş teklifi mailinin Spam klasöründe kaybolması mı daha kötü (FP), yoksa gelen kutuna bir tane reklam düşmesi mi (FN)?",
+        exp: "<strong>FP (False Positive):</strong> Normal/Önemli bir mailin yanlışlıkla Spam sanılması.<br><strong>FN (False Negative):</strong> Spam bir mailin kaçıp Gelen Kutusuna düşmesi.<br>E-posta sağlayıcıları <strong>FP'den (Yanlış Alarm)</strong> daha çok kaçınmalıdır. Çünkü kullanıcının önemli bir faturayı veya iş mailini görememesi büyük risktir, ancak arada bir spam görmesi (FN) tolere edilebilir."
+    },
+    {
+        id: "cq2",
+        q: "Aşağıda bir sınıflandırma problemi için örnek bir veri tablosu ve bu veri setine ait bazı ölçümler verilmiştir.<br><br>\
+        <div style='display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap;'>\
+        <div>\
+            <strong>Veri Seti:</strong><br><br>\
+            <table border='1' cellpadding='6' cellspacing='0' style='border-collapse:collapse; font-size:14px;'>\
+                <tr><th>Hava</th><th>Nem</th><th>Rüzgar</th><th>Tenis Oynanır mı?</th></tr>\
+                <tr><td>Güneşli</td><td>Yüksek</td><td>Zayıf</td><td>Hayır</td></tr>\
+                <tr><td>Güneşli</td><td>Normal</td><td>Zayıf</td><td>Evet</td></tr>\
+                <tr><td>Bulutlu</td><td>Yüksek</td><td>Zayıf</td><td>Evet</td></tr>\
+                <tr><td>Yağmurlu</td><td>Normal</td><td>Güçlü</td><td>Hayır</td></tr>\
+                <tr><td>Yağmurlu</td><td>Normal</td><td>Zayıf</td><td>Evet</td></tr>\
+            </table>\
+        </div>\
+        <div>\
+            <strong>Verilen Bilgiler:</strong><br><br>\
+            Başlangıç Entropisi (Hedef Değişken): <strong>0.97</strong><br><br>\
+            <table border='1' cellpadding='6' cellspacing='0' style='border-collapse:collapse; font-size:14px;'>\
+                <tr><th>Öznitelik</th><th>Information Gain</th></tr>\
+                <tr><td>Hava</td><td>0.32</td></tr>\
+                <tr><td>Nem</td><td>0.12</td></tr>\
+                <tr><td>Rüzgar</td><td>0.05</td></tr>\
+            </table>\
+        </div>\
+        </div>\
+        <br>\
+        <strong>Soru:</strong><br>\
+        (a) Verilen Information Gain değerlerini dikkate alarak karar ağacının <strong>kök düğümünü</strong> belirleyiniz.<br>\
+        (b) Seçtiğiniz kök düğüme göre <strong>basit bir karar ağacı</strong> çiziniz.<br>\
+        (c) Seçiminizi <strong>kavramsal olarak</strong> gerekçelendiriniz.<br>\
+        Not: Alt düğümler için Information Gain değerlerini hesaplamanız gerekmemektedir; mantıklı bir ayrım yapılması yeterlidir.",
+        hint: "En yüksek Information Gain hangi öznitelikte? Bu, belirsizliği (entropiyi) en çok azaltan ilk sorunun hangisi olduğu anlamına gelir. Kök düğümü seçtikten sonra hangi dallar tek hamlede 'Evet/Hayır' olur, hangileri ek soru ister?",
+        exp: `
+            <strong>Örnek tam puan yaklaşımı:</strong><br><br>
+            <strong>(a) Kök düğüm:</strong> En yüksek Information Gain <strong>Hava (0.32)</strong> olduğundan kök düğüm <strong>Hava</strong> seçilir.<br><br>
+
+            <strong>(b) Örnek karar ağacı (basit ve tutarlı):</strong><br>
+            Aşağıdaki ağaç, kökte <em>Hava</em> ile başlar. <em>Bulutlu</em> dalı doğrudan <strong>Evet</strong>’e gider (saf dal). 
+            <em>Güneşli</em> dalında <em>Nem</em> ile, <em>Yağmurlu</em> dalında <em>Rüzgar</em> ile ayrım yapılarak tabloyla tutarlı kararlar elde edilir.<br><br>
+
+            <svg viewBox="0 0 780 360" width="100%" style="background:#fff;border-radius:10px;border:1px solid #eee">
+            <defs>
+                <style>
+                .box{fill:#fafafa;stroke:#111;stroke-width:1.4;rx:10;ry:10}
+                .leafYes{fill:#ecfdf5;stroke:#111;stroke-width:1.2;rx:10;ry:10}
+                .leafNo{fill:#fef2f2;stroke:#111;stroke-width:1.2;rx:10;ry:10}
+                .txt{font: 14px Arial, sans-serif; fill:#111}
+                .small{font: 12px Arial, sans-serif; fill:#111}
+                .edge{stroke:#555;stroke-width:1.4}
+                .tag{font: 12px Arial, sans-serif; fill:#111}
+                </style>
+            </defs>
+
+            <!-- Root -->
+            <rect class="box" x="330" y="20" width="120" height="44"/>
+            <text class="txt" x="390" y="48" text-anchor="middle">Hava</text>
+
+            <!-- Level 1 nodes -->
+            <!-- Sunny -->
+            <rect class="box" x="90" y="120" width="140" height="44"/>
+            <text class="txt" x="160" y="148" text-anchor="middle">Güneşli</text>
+
+            <!-- Cloudy -->
+            <rect class="box" x="320" y="120" width="140" height="44"/>
+            <text class="txt" x="390" y="148" text-anchor="middle">Bulutlu</text>
+
+            <!-- Rainy -->
+            <rect class="box" x="550" y="120" width="140" height="44"/>
+            <text class="txt" x="620" y="148" text-anchor="middle">Yağmurlu</text>
+
+            <!-- Edges root -> level1 -->
+            <line class="edge" x1="390" y1="64" x2="160" y2="120"/>
+            <line class="edge" x1="390" y1="64" x2="390" y2="120"/>
+            <line class="edge" x1="390" y1="64" x2="620" y2="120"/>
+
+            <!-- Branch labels -->
+            <text class="small" x="260" y="95" text-anchor="middle">Hava=Güneşli</text>
+            <text class="small" x="390" y="95" text-anchor="middle">Hava=Bulutlu</text>
+            <text class="small" x="520" y="95" text-anchor="middle">Hava=Yağmurlu</text>
+
+            <!-- Level 2 for Sunny: split by Nem -->
+            <rect class="box" x="90" y="210" width="140" height="44"/>
+            <text class="txt" x="160" y="238" text-anchor="middle">Nem</text>
+            <line class="edge" x1="160" y1="164" x2="160" y2="210"/>
+            <text class="small" x="160" y="195" text-anchor="middle">soru: Nem?</text>
+
+            <!-- Sunny leaves -->
+            <rect class="leafNo" x="20" y="290" width="140" height="44"/>
+            <text class="txt" x="90" y="318" text-anchor="middle">Hayır</text>
+
+            <rect class="leafYes" x="160" y="290" width="140" height="44"/>
+            <text class="txt" x="230" y="318" text-anchor="middle">Evet</text>
+
+            <line class="edge" x1="140" y1="254" x2="90" y2="290"/>
+            <line class="edge" x1="180" y1="254" x2="230" y2="290"/>
+
+            <text class="small" x="90" y="278" text-anchor="middle">Nem=Yüksek</text>
+            <text class="small" x="230" y="278" text-anchor="middle">Nem=Normal</text>
+
+            <!-- Level 2 for Cloudy: direct leaf Yes -->
+            <rect class="leafYes" x="320" y="210" width="140" height="44"/>
+            <text class="txt" x="390" y="238" text-anchor="middle">Evet</text>
+            <line class="edge" x1="390" y1="164" x2="390" y2="210"/>
+            <text class="small" x="390" y="195" text-anchor="middle">saf dal</text>
+
+            <!-- Level 2 for Rainy: split by Rüzgar -->
+            <rect class="box" x="550" y="210" width="140" height="44"/>
+            <text class="txt" x="620" y="238" text-anchor="middle">Rüzgar</text>
+            <line class="edge" x1="620" y1="164" x2="620" y2="210"/>
+            <text class="small" x="620" y="195" text-anchor="middle">soru: Rüzgar?</text>
+
+            <!-- Rainy leaves -->
+            <rect class="leafNo" x="480" y="290" width="140" height="44"/>
+            <text class="txt" x="550" y="318" text-anchor="middle">Hayır</text>
+
+            <rect class="leafYes" x="620" y="290" width="140" height="44"/>
+            <text class="txt" x="690" y="318" text-anchor="middle">Evet</text>
+
+            <line class="edge" x1="600" y1="254" x2="550" y2="290"/>
+            <line class="edge" x1="640" y1="254" x2="690" y2="290"/>
+
+            <text class="small" x="550" y="278" text-anchor="middle">Rüzgar=Güçlü</text>
+            <text class="small" x="690" y="278" text-anchor="middle">Rüzgar=Zayıf</text>
+
+            <!-- Footer note -->
+            <text class="tag" x="12" y="354">Not: Bu ağaç, verilen tabloyla tutarlı “örnek” bir çözümdür; farklı ama tutarlı ağaçlar da kabul edilebilir.</text>
+            </svg>
+
+            <br><br>
+            <strong>(c) Gerekçe:</strong> Information Gain, bir bölünmenin entropiyi (belirsizliği) ne kadar azalttığını gösterir. En yüksek IG’ye sahip öznitelik kök düğüm seçilerek ağaç daha hızlı saf dallar üretir ve daha kısa bir yapıya yaklaşır.
+        `
+    },
+    {
+        id: "cqX_fp1",
+        q: "Aşağıda 5 adet market işlemi (fiş) verilmiştir. Minimum destek (min support) değeri <strong>3</strong> kabul edilecektir.<br><br>\
+        <div style='display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap;'>\
+        <div style='min-width:320px'>\
+            <strong>İşlemler (Market Fişleri):</strong><br><br>\
+            <table border='1' cellpadding='6' cellspacing='0' style='border-collapse:collapse; font-size:14px;'>\
+            <tr><th>İşlem</th><th>Ürünler</th></tr>\
+            <tr><td>T1</td><td>Ekmek, Süt, Yumurta</td></tr>\
+            <tr><td>T2</td><td>Ekmek, Süt</td></tr>\
+            <tr><td>T3</td><td>Ekmek, Yumurta</td></tr>\
+            <tr><td>T4</td><td>Süt, Yumurta</td></tr>\
+            <tr><td>T5</td><td>Ekmek, Süt, Yumurta</td></tr>\
+            </table>\
+        </div>\
+        <div style='min-width:260px'>\
+            <strong>Notlar:</strong><br><br>\
+            <ul style='margin:0; padding-left:18px; font-size:14px; line-height:1.4'>\
+            <li><strong>min support = 3</strong> (destek sayısı olarak)</li>\
+            <li>Frekansı min support’un altında kalan ürünleri ağaçtan çıkarınız.</li>\
+            <li>FP-Tree çiziminde düğümler <em>ürün adı + sayaç</em> biçiminde yazılmalıdır.</li>\
+            </ul>\
+        </div>\
+        </div>\
+        <br>\
+        <strong>Soru:</strong><br>\
+        (a) Her ürünün destek sayısını bulunuz ve <strong>min support=3</strong> altında kalanları eleyiniz.<br>\
+        (b) Kalan ürünleri desteğe göre sıralayarak (eşitlik varsa alfabetik) her işlemi yeniden düzenleyiniz.<br>\
+        (c) Bu sıralı işlemlerle <strong>FP-Tree</strong>’yi <strong>çiziniz</strong> (kök düğüm, sayaçlar, dallar).<br>\
+        (d) Elde ettiğiniz sık örüntülerden yararlanarak <strong>en az 2</strong> birliktelik kuralı yazınız (örn. {A}→{B}).<br>\
+        Not: Confidence/Lift hesaplaması gerekmemektedir; sadece <strong>destek (support)</strong> eşiğine uyan kurallar yeterlidir.",
+        hint: "Önce tekil ürünlerin destek sayılarını say. min support altında kalanları silince geriye kaç ürün kalıyor? FP-Tree için her işlemi aynı sıralama kuralıyla yazıp kökten itibaren sayaçları artırarak dalları oluştur. Kural yazarken: Eğer {A,B} sık ise {A}→{B} ve {B}→{A} gibi kurallar üretilebilir.",
+        exp: `
+        <strong>Örnek tam puan yaklaşımı:</strong><br><br>
+
+        <strong>(a) Destek sayıları (min support = 3):</strong><br>
+        Ekmek: 4 (T1,T2,T3,T5) ✅<br>
+        Süt: 4 (T1,T2,T4,T5) ✅<br>
+        Yumurta: 4 (T1,T3,T4,T5) ✅<br>
+        ⇒ Elenen ürün yok, üç ürün de kalır.<br><br>
+
+        <strong>(b) Sıralama (destek eşit → alfabetik):</strong><br>
+        Ekmek (4), Süt (4), Yumurta (4) ⇒ sıra: <strong>Ekmek → Süt → Yumurta</strong><br>
+        Yeniden düzenlenmiş işlemler:<br>
+        T1: [Ekmek, Süt, Yumurta]<br>
+        T2: [Ekmek, Süt]<br>
+        T3: [Ekmek, Yumurta]<br>
+        T4: [Süt, Yumurta] (Ekmek yok)<br>
+        T5: [Ekmek, Süt, Yumurta]<br><br>
+
+        <strong>(c) FP-Tree (örnek çizim):</strong><br>
+        <svg viewBox="0 0 820 300" width="100%" style="background:#fff;border-radius:10px;border:1px solid #eee">
+            <defs>
+            <style>
+                .node{fill:#fafafa;stroke:#111;stroke-width:1.4;rx:10;ry:10}
+                .root{fill:#fff;stroke:#111;stroke-width:1.6;rx:10;ry:10}
+                .txt{font: 14px Arial, sans-serif; fill:#111}
+                .small{font: 12px Arial, sans-serif; fill:#111}
+                .edge{stroke:#555;stroke-width:1.4}
+                .note{font: 12px Arial, sans-serif; fill:#111}
+            </style>
+            </defs>
+
+            <!-- Root -->
+            <rect class="root" x="360" y="18" width="100" height="42"/>
+            <text class="txt" x="410" y="45" text-anchor="middle">ROOT</text>
+
+            <!-- Level 1 -->
+            <rect class="node" x="170" y="95" width="160" height="44"/>
+            <text class="txt" x="250" y="123" text-anchor="middle">Ekmek : 4</text>
+
+            <rect class="node" x="510" y="95" width="160" height="44"/>
+            <text class="txt" x="590" y="123" text-anchor="middle">Süt : 1</text>
+
+            <!-- edges root -> level1 -->
+            <line class="edge" x1="390" y1="60" x2="250" y2="95"/>
+            <line class="edge" x1="430" y1="60" x2="590" y2="95"/>
+
+            <!-- Level 2 under Ekmek -->
+            <rect class="node" x="170" y="175" width="160" height="44"/>
+            <text class="txt" x="250" y="203" text-anchor="middle">Süt : 3</text>
+
+            <rect class="node" x="20" y="175" width="160" height="44"/>
+            <text class="txt" x="100" y="203" text-anchor="middle">Yumurta : 1</text>
+
+            <line class="edge" x1="250" y1="139" x2="250" y2="175"/>
+            <line class="edge" x1="220" y1="139" x2="100" y2="175"/>
+
+            <!-- Level 3 under Ekmek->Süt -->
+            <rect class="node" x="170" y="245" width="160" height="44"/>
+            <text class="txt" x="250" y="273" text-anchor="middle">Yumurta : 2</text>
+            <line class="edge" x1="250" y1="219" x2="250" y2="245"/>
+
+            <!-- Level 2 under Süt(1) -->
+            <rect class="node" x="510" y="175" width="160" height="44"/>
+            <text class="txt" x="590" y="203" text-anchor="middle">Yumurta : 1</text>
+            <line class="edge" x1="590" y1="139" x2="590" y2="175"/>
+
+            <!-- Annotations -->
+            <text class="note" x="18" y="292">Not: Sayaçlar sırasıyla T1,T2,T3,T4,T5 eklenerek artırılır.</text>
+        </svg>
+        <br>
+        Bu ağaçta iki ana dal oluşur: (ROOT→Ekmek) ve (ROOT→Süt).<br><br>
+
+        <strong>(d) Örnek kurallar (destek eşiğine uyan):</strong><br>
+        Önce sık ikililer: {Ekmek, Süt} desteği = 3 (T1,T2,T5) ✅, {Ekmek, Yumurta} desteği = 3 (T1,T3,T5) ✅, {Süt, Yumurta} desteği = 3 (T1,T4,T5) ✅<br>
+        Örnek kurallar (en az 2 adet):<br>
+        • {Ekmek} → {Süt} (destek=3)<br>
+        • {Süt} → {Yumurta} (destek=3)<br>
+        (Benzer şekilde {Ekmek}→{Yumurta} gibi diğer kurallar da destek eşiğini sağlar.)
+        `
+    },
+    {
+        id: "cq6",
+        q: "Karar Ağaçlarında 'Bilgi Kazancı' (Information Gain) kavramını açıklayınız. Ağaç, bir düğümü bölmek için hangi değişkeni seçeceğine nasıl karar verir?",
+        hint: "Bölme işlemi öncesi kaos (entropi) yüksek, sonrası düşük olmalı. Aradaki fark neyi gösterir?",
+        exp: "Bilgi Kazancı, bir düğümü belirli bir niteliğe göre böldüğümüzde Entropide (düzensizlikte) meydana gelen <strong>düşüş miktarıdır</strong>. Ağaç algoritması (ID3, C4.5 vb.), her adımda tüm değişkenleri dener ve Bilgi Kazancını <strong>en yüksek (Entropiyi en çok düşüren)</strong> yapan değişkeni kök veya düğüm olarak seçer."
+    },
+    // HAFTA 13 EKLEMELERİ
+    {
+        id: "cq7",
+        q: "Destek Vektör Makineleri'nde (SVM) 'Kernel Trick' (Çekirdek Hilesi) nedir ve neden buna ihtiyaç duyarız? Bir örnek vererek açıklayınız.",
+        hint: "Masada içi içe geçmiş iki halka düşün (biri kırmızı, biri mavi). Bunları masayı kesmeden (doğrusal) ayıramazsın. Ama masaya vurup halkaları havaya sıçratırsan, aralarına bir kağıt (düzlem) sokabilir misin?",
+        exp: "Doğrusal olarak ayrılamayan (non-linear) verileri, daha yüksek boyutlu bir uzaya taşıyarak orada doğrusal bir düzlemle ayırma işlemine Kernel Trick denir. Örneğin, 2D'de iç içe geçmiş halkaları 3D'ye taşıdığımızda aralarına bir düzlem koyarak ayırabiliriz. Bu sayede karmaşık verilerde bile SVM kullanılabilir."
+    },
+    {
+        id: "cq8",
+        q: "Yapay Sinir Ağlarında 'Geri Yayılım' (Backpropagation) algoritmasının çalışma mantığını, 'Zincir Kuralı' (Chain Rule) referansı ile kısaca açıklayınız.",
+        hint: "Çıktıdaki hatanın sorumlusu kim? En son katmandan başlayarak, 'Senin hatan şu kadar', 'Seninki bu kadar' diye diye geriye doğru suçlama (türev alma) işlemi.",
+        exp: "Geri Yayılım, ağın tahmin hatasını (Loss) minimize etmek için ağırlıkların (weights) nasıl güncelleneceğini hesaplar. Bunu yaparken Zincir Kuralını kullanır: Çıktı katmanındaki hatanın türevi hesaplanır ve bu hata geriye doğru (giriş katmanına kadar) her bir katmandaki nöronlara, katkıları oranında dağıtılır. Böylece her ağırlığın hataya etkisi (gradyanı) bulunur."
+    },
+    // HAFTA 14 EKLEMELERİ (KÜMELEME)
+    {
+        id: "cq9",
+        q: "Kümeleme analizinde 'Intra-class Similarity' (Küme-içi Benzerlik) ve 'Inter-class Similarity' (Kümeler-arası Benzerlik) kavramlarını açıklayınız. Başarılı bir kümeleme için bu değerler nasıl olmalıdır?",
+        hint: "Aile içindeki bağlar nasıl olmalı? Farklı aileler (komşu kümeler) arasındaki mesafe nasıl olmalı?",
+        exp: "<strong>Intra-class (Küme-içi):</strong> Aynı kümedeki elemanların birbirine benzerliğidir. Bunun <strong>YÜKSEK</strong> olması istenir (Sıkı kümeler).<br><strong>Inter-class (Kümeler-arası):</strong> Farklı kümelerin birbirine olan benzerliğidir (veya uzaklığıdır). Bunun <strong>DÜŞÜK</strong> (veya mesafenin uzak) olması istenir. Yani kümeler hem kendi içinde sıkı olmalı hem de birbirlerinden net bir şekilde ayrılmalıdır."
+    },
+    // HAFTA 15 EKLEMELERİ
+    {
+        id: "cq10",
+        q: "Birliktelik Kuralı Madenciliğinde (Association Rules) kullanılan <strong>Support</strong>, <strong>Confidence</strong> ve <strong>Lift</strong> metriklerini yalnızca tanım olarak değil, <strong>nasıl kullanıldıkları</strong> ve <strong>nasıl yanlış yorumlandıkları</strong> açısından açıklayınız.<br><br>\
+        <strong>(a)</strong> Support, Confidence ve Lift’i tanımlayınız (kısa ve net).<br>\
+        <strong>(b)</strong> <strong>Support eşiğinin</strong> algoritma açısından (Apriori/FP-Growth) ne işe yaradığını ve iş kararları açısından (kampanya/raf düzeni vb.) nasıl bir “politika eşiği” gibi düşünülebileceğini açıklayınız.<br>\
+        <strong>(c)</strong> <strong>Confidence tuzağı</strong> nedir? Bir kuralın confidence’ı yüksek olmasına rağmen neden zayıf/yanıltıcı olabileceğini açıklayınız.<br>\
+        <strong>(d)</strong> Lift’in 1’den büyük/eşit/küçük olmasının anlamını yorumlayınız ve Lift’in confidence’a göre neyi “düzelttiğini” belirtiniz.",
+        hint: "Support = kaç işlemde görülüyor? (frekans) / Apriori’de aday eleme için eşik. İş tarafında ise “çok nadir kuralla uğraşma” filtresi. Confidence = P(Y|X). Neden Y zaten çok popülerse confidence şişer? Lift = P(Y|X)/P(Y) ile ‘tesadüfe göre’ karşılaştırma yapar. Lift=1 ne demek?",
+        exp: "<strong>Örnek tam puanlık açıklama:</strong><br><br>\
+        <strong>(a) Tanımlar</strong><br>\
+        • <strong>Support(X)</strong>: X’in işlemlerde görülme oranı. <em>Popülerlik/frekans</em> ölçüsüdür.<br>\
+        • <strong>Confidence(X→Y)</strong>: X alınmışken Y’nin alınma olasılığıdır: <em>P(Y|X)</em>. Kuralın “X varsa Y de oluyor mu?” tutarlılığını ölçer.<br>\
+        • <strong>Lift(X→Y)</strong>: X varken Y’nin olasılığını, Y’nin genel olasılığıyla kıyaslar: <em>Lift = P(Y|X) / P(Y)</em>. Yani ilişkiyi <em>tesadüfi birlikte görülmeye</em> göre ölçer.<br><br>\
+        <strong>(b) Support eşiğinin iki farklı kullanımı</strong><br>\
+        • <strong>Algoritma (Apriori/FP-Growth) açısından:</strong> Support eşiği bir <strong>eleme eşiğidir</strong>. Apriori’de “aşağı kapalı (downward closure)” mantığıyla düşük destekli adaylar erken elenir; arama uzayı küçülür ve hız artar. FP-Growth’ta da düşük destekli öğeler FP-Tree’ye alınmaz / dallar budanır; ağaç daha kompakt olur.<br>\
+        • <strong>İş/karar verme açısından:</strong> Support eşiği bir <strong>politika eşiği</strong> gibi düşünülebilir: Çok nadir görülen kurallar (düşük support) operasyonel olarak anlamsız olabilir (kampanya maliyeti, stok/raf alanı, aksiyonun getirisi düşük). Bu yüzden support, “üzerinde aksiyon alacağım kadar yaygın mı?” filtresidir.<br><br>\
+        <strong>(c) Confidence tuzağı</strong><br>\
+        Confidence yüksekse kural mutlaka güçlü değildir. Çünkü confidence, Y’nin <strong>genel popülerliğini</strong> dikkate almaz. Eğer Y zaten çok sık alınan bir ürünse, X ile ilişki olmasa bile <em>P(Y|X)</em> yüksek çıkabilir.<br>\
+        Örnek mantık: Y çok popüler olduğunda “X alanların çoğu da Y alıyor” ifadesi, gerçekte X’in Y’yi artırdığını değil, Y’nin zaten çok satıldığını gösterebilir. Bu yüzden sadece confidence’a bakmak yanıltıcıdır.<br><br>\
+        <strong>(d) Lift nasıl yorumlanır ve neyi düzeltir?</strong><br>\
+        Lift, confidence’ın “Y zaten popüler” yanlılığını düzeltir çünkü <em>P(Y|X)</em> değerini <em>P(Y)</em> ile kıyaslar.<br>\
+        • <strong>Lift &gt; 1</strong>: Pozitif ilişki. X varken Y, tesadüfe göre daha sık gelir (X, Y’yi ‘artırıyor’ gibi).<br>\
+        • <strong>Lift = 1</strong>: Bağımsızlık. X bilgisi Y olasılığını değiştirmez; birlikte görülme tesadüfi düzeydedir.<br>\
+        • <strong>Lift &lt; 1</strong>: Negatif ilişki. X varken Y daha az görülür (birbirini ‘bastırma’ / ikame etkisi olabilir).<br><br>\
+        <strong>Özet:</strong> Support = yaygınlık (filtre/eleme), Confidence = koşullu olasılık (ama tuzaklı), Lift = tesadüfe göre ilişki gücü (daha güvenilir yorum)."
+    },
+    {
+        id: "cq11",
+        q: "Apriori ve FP-Growth algoritmalarını 'Veritabanı Tarama Sayısı' ve 'Hız' açısından karşılaştırınız. Büyük veri setlerinde hangisi tercih edilmelidir?",
+        hint: "Biri her adımda veriye bakar, diğeri tek seferde ağaç kurar.",
+        exp: "<strong>Apriori:</strong> Her iterasyonda (aday setleri için) veritabanını tekrar tekrar tarar. Bu yüzden büyük veride çok yavaştır (Disk I/O maliyeti).<br><strong>FP-Growth:</strong> Veritabanını sadece 2 kez tarar (Biri frekans sayımı, biri ağaç oluşturma için). Veriyi sıkıştırılmış bir ağaç (FP-Tree) yapısına aldığı için çok daha hızlıdır ve büyük veri setlerinde tercih edilir."
+    },
+    {
+    id: "cq12",
+    q: "İki girişli, <strong>tek gizli katmanlı</strong> (gizli katmanda 3 nöron bulunan) ve <strong>ikili sınıflandırma</strong> yapan bir yapay sinir ağı tasarladığınızı düşününüz.<br><br>\
+    <strong>(a)</strong> Bu ağın mimarisini şematik olarak çiziniz ve giriş vektörünü, ağırlıkları, bias terimlerini ve katmanlar arası bağlantıları gösteriniz (tam bağlantılı kabul ediniz).<br><br>\
+    <strong>(b)</strong> Gizli katman ve çıktı katmanında kullanılabilecek uygun aktivasyon fonksiyonlarını belirtiniz ve bu seçimi <strong>kavramsal</strong> olarak gerekçelendiriniz. <em>(Aktivasyonların sayısal hesaplanması beklenmez.)</em><br><br>\
+    <strong>(c)</strong> Basit ve hesaplanabilir değerler seçerek giriş vektörünü, ağırlıkları ve bias değerlerini belirleyiniz.<br><br>\
+    <strong>(d)</strong> Belirlediğiniz parametrelerle her nöron için yalnızca <code>z = w·x + b</code> hesaplayınız (gizli katman ve çıkış katmanı dahil).<br><br>\
+    <strong>(e)</strong> Aktivasyonları sayısal hesaplamadan, yalnızca çıkış katmanındaki <code>z</code> (logit) değerlerini karşılaştırarak nihai sınıf kararını belirtiniz. <em>(Büyük <code>z</code> hangi sınıfa aitse o sınıf seçilir.)</em>",
+    hint: "Önce giriş vektörünü (x₁,x₂) yaz. Gizli katmandaki her nöron için ayrı bir ağırlık vektörü (w) ve bias (b) seçip <code>z</code> hesapla. Sonra bu üç gizli nöronun çıktıları (a değerleri) çıkış katmanına giriş olur. Çıkışta iki nöron varsa, softmax hesaplamadan bile iki logit’i (<code>z(o₁)</code>, <code>z(o₂)</code>) kıyaslayarak sınıf seçebilirsin.",
+    exp: `
+        <div style="margin:10px 0 14px 0;">
+        <div style="font-weight:700; margin-bottom:8px;">Örnek şema (2–3–2)</div>
+
+        <svg width="860" height="240" viewBox="0 0 860 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="2-3-2 neural network">
+            <defs>
+            <style>
+                .lbl{font: 12px/1.2 Arial, sans-serif; fill:#111}
+                .small{font: 11px/1.2 Arial, sans-serif; fill:#111}
+                .node{fill:#fff; stroke:#111; stroke-width:1.4}
+                .wire{stroke:#666; stroke-width:1}
+                .box{fill:#fafafa; stroke:#ddd; stroke-width:1}
+                .cap{font: 13px/1.2 Arial, sans-serif; font-weight:700; fill:#111}
+            </style>
+            </defs>
+
+            <rect class="box" x="40"  y="18" width="210" height="200" rx="10"/>
+            <rect class="box" x="310" y="18" width="210" height="200" rx="10"/>
+            <rect class="box" x="580" y="18" width="240" height="200" rx="10"/>
+
+            <text class="cap" x="60"  y="44">Giriş (2)</text>
+            <text class="cap" x="330" y="44">Gizli (3)</text>
+            <text class="cap" x="600" y="44">Çıkış (2)</text>
+
+            <!-- Inputs -->
+            <circle class="node" cx="140" cy="85"  r="16"/>
+            <circle class="node" cx="140" cy="145" r="16"/>
+            <text class="lbl" x="170" y="89">x₁</text>
+            <text class="lbl" x="170" y="149">x₂</text>
+
+            <!-- Hidden -->
+            <circle class="node" cx="410" cy="70"  r="16"/>
+            <circle class="node" cx="410" cy="120" r="16"/>
+            <circle class="node" cx="410" cy="170" r="16"/>
+            <text class="lbl" x="440" y="74">h₁</text>
+            <text class="lbl" x="440" y="124">h₂</text>
+            <text class="lbl" x="440" y="174">h₃</text>
+
+            <!-- Outputs -->
+            <circle class="node" cx="680" cy="100" r="16"/>
+            <circle class="node" cx="680" cy="150" r="16"/>
+            <text class="lbl" x="710" y="104">o₁ (Sınıf-1)</text>
+            <text class="lbl" x="710" y="154">o₂ (Sınıf-2)</text>
+
+            <!-- Input -> Hidden -->
+            <line class="wire" x1="156" y1="85"  x2="394" y2="70"/>
+            <line class="wire" x1="156" y1="85"  x2="394" y2="120"/>
+            <line class="wire" x1="156" y1="85"  x2="394" y2="170"/>
+            <line class="wire" x1="156" y1="145" x2="394" y2="70"/>
+            <line class="wire" x1="156" y1="145" x2="394" y2="120"/>
+            <line class="wire" x1="156" y1="145" x2="394" y2="170"/>
+
+            <!-- Hidden -> Output -->
+            <line class="wire" x1="426" y1="70"  x2="664" y2="100"/>
+            <line class="wire" x1="426" y1="120" x2="664" y2="100"/>
+            <line class="wire" x1="426" y1="170" x2="664" y2="100"/>
+            <line class="wire" x1="426" y1="70"  x2="664" y2="150"/>
+            <line class="wire" x1="426" y1="120" x2="664" y2="150"/>
+            <line class="wire" x1="426" y1="170" x2="664" y2="150"/>
+
+            <text class="small" x="330" y="214">Her nöron önce: z = w·(girdi) + b</text>
+            <text class="small" x="600" y="214">Karar: büyük logit (z) → seçilen sınıf</text>
+        </svg>
+        </div>
+
+        <div style="line-height:1.65;">
+        <strong>Örnek tam puanlık çözüm:</strong><br><br>
+
+        <strong>(a) Mimari (2–3–2):</strong><br>
+        Giriş katmanında <code>x₁, x₂</code> vardır. Gizli katmanda <code>h₁, h₂, h₃</code> olmak üzere 3 nöron bulunur. Çıkış katmanında ikili sınıflandırma için iki nöron (<code>o₁</code>, <code>o₂</code>) vardır. Tüm katmanlar tam bağlantılıdır ve her nöronda bir <strong>bias</strong> terimi yer alır.<br><br>
+
+        <strong>(b) Aktivasyon seçimi (ReLU):</strong><br>
+        Gizli katmanda <strong>ReLU</strong> (negatif <code>z</code> değerlerini 0’a kırpar; doğrusal olmayanlık sağlar) uygundur. (Zaten derste gizli katmanlar için ReLU örneğinden bahsetmiştik sadece.) Çıkışta ikili sınıflandırmada <strong>Softmax veya Sigmoid</strong> kullanılabilir; ancak bu soruda softmax sayısal hesaplanmayacak, karar <strong>logit</strong> karşılaştırmasıyla verilecektir.<br><br>
+
+        <strong>(c) Basit değer seçimi:</strong><br>
+        Giriş vektörü: <code>x = [x₁, x₂] = [1, 2]</code><br><br>
+
+        <em>Gizli katman ağırlık/bias (her nöron için ayrı, bunları kendimizce rastgele seçiyoruz ama elle işlemi kolay olsun):</em><br>
+        <code>h₁: w=[1, 0], b=0</code><br>
+        <code>h₂: w=[0, 1], b=-1</code><br>
+        <code>h₃: w=[1, -1], b=0</code><br><br>
+
+        <em>Çıkış katmanı ağırlık/bias (girdi: a₁,a₂,a₃):</em><br>
+        <code>o₁: w=[1, 0, 0], b=0</code><br>
+        <code>o₂: w=[0, 1, 0], b=0</code><br><br>
+
+        <strong>(d) İleri besleme – yalnız z hesapları:</strong><br>
+
+        <em>Gizli katman (girdi x=[1,2]):</em><br>
+        <code>z(h₁) = 1·x₁ + 0·x₂ + 0 = 1·1 + 0·2 = 1</code><br>
+        <code>z(h₂) = 0·x₁ + 1·x₂ + (-1) = 0·1 + 1·2 - 1 = 1</code><br>
+        <code>z(h₃) = 1·x₁ + (-1)·x₂ + 0 = 1·1 - 1·2 = -1</code><br><br>
+
+        Bu noktada aktivasyonların sayısal hesaplanması zorunlu değil ancak ReLU seçtiğimiz için <code>z(h₃)</code> negatif olduğu için <code>a₃</code>'ün 0'a kırpılacağını söylemek mümkündür.<br><br>
+
+        <em>Çıkış katmanı (girdi olarak gizli katmanın aktivasyon çıktıları a=[a₁,a₂,a₃]):</em><br>
+        Bu örnekte ReLU mantığıyla: <code>a₁=1</code>, <code>a₂=1</code>, <code>a₃=0</code> kabul edelim (negatif değer 0'a kırpılır).<br>
+        <code>z(o₁) = 1·a₁ + 0·a₂ + 0·a₃ + 0 = 1·1 = 1</code><br>
+        <code>z(o₂) = 0·a₁ + 1·a₂ + 0·a₃ + 0 = 1·1 = 1</code><br><br>
+
+        <strong>(e) Nihai sınıf kararı (softmax/aktivasyon sayısal hesaplanmadan):</strong><br>
+        Karar kuralı: <code>z(o₁)</code> ve <code>z(o₂)</code> karşılaştırılır. Burada <code>z(o₁)=1</code> ve <code>z(o₂)=1</code> olduğundan <strong>beraberlik</strong> vardır. Bu durumda iki geçerli yaklaşım vardır:<br>
+        • <em>Beraberlik kuralı tanımla:</em> “Eşitse Sınıf-1 seçilir” gibi.<br>
+        • <em>Parametreleri çok az değiştir:</em> Örneğin <code>o₂</code> için bias’ı <code>b=+1</code> seçersen <code>z(o₂)=2</code olur ve Sınıf-2 seçilir.<br><br>
+
+        <strong>Not:</strong> Bu seçtiğimiz basit değerler sonucu beraberlik oluştu. Beraberilik duurmu yoksa z değeri büyük olan sınıf seçilir.
+        </div>
+    `
+    }
+
+];
+
+// Tüm soruları birleştir (skor hesaplama için)
+const ALL_QUESTIONS = [
+    ...dyQuestions.map(q => ({...q, type: 'dy'})),
+    ...blankQuestions.map(q => ({...q, type: 'blank'})),
+    ...mcQuestions.map(q => ({...q, type: 'mc'})),
+    ...visualQuestions.map(q => ({...q, type: 'visual'})),
+    ...scenarioQuestions.map(q => ({...q, type: 'scenario'}))
+];
+
+const TOTAL_QUESTIONS = ALL_QUESTIONS.length;
+
+// --- SHUFFLE ---
+// Fisher-Yates shuffle algoritması
+function shuffleArray(array) {
+    const shuffled = [...array]; // Kopya oluştur
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
+// --- RENDER ---
+function getHintHTML(id, hintText) {
+    return `
+        <div class="hint-btn" onclick="toggleHint('${id}-hint')">
+            💡 İpucu Göster
+        </div>
+        <div id="${id}-hint" class="hint-content">
+            ${hintText}
+        </div>
+    `;
+}
+
+function renderAnnouncement() {
+    const container = document.getElementById('quiz');
+    const announcement = document.createElement('div');
+    announcement.className = 'announcement';
+    announcement.innerHTML = `
+        <p class="announcement-content" id="announcementText">
+            <strong>Sevgili arkadaşlar</strong>, bu çalışma soruları final sınavına hazırlık amacıyla hazırlandı ancak vize sonrasındaki konuları kapsıyor. Vize sınavınızdaki konulardan da az sayıda da olsa final sınavınızda soru geleceğini unutmayın 🙃. Her soru için ipucu ve detaylı açıklamalar mevcut. İlerlemeniz otomatik olarak kaydedilir ve istediğiniz zaman kaldığınız yerden devam edebilirsiniz (dosya bilgisayarınızda veya telefonunuzda kayıtlı olmalı). Soru sayısı oldukça fazla, bir kavramı ölçen birden fazla soru var. Vize çalışma sorularında da olduğu gibi sınavınızda doğrudan bu sorular çıkmayacak fakat burada ölçülen bilgiye sahipseniz final sınavında da başarılı olacaksınız. En son bölümde klasik sorular var, bunlar için bir doğru-yanlış kontrol mekanizması yok fakat örnek cevaplar var. Klasik sorulara da çalışmanızı tavsiye ederim 😁. Ayrıca çoktan seçmeli sorularda seçenekler arasında doğru cevaplar göz kırpıyor, fakat bildiğiniz üzere sınavda çeldirici seçenekler olacak, dolayısıyla doğru cevabı işaretlemiş olsanız da neden o cevabı seçtiğinizi özümseyiniz. Başarılar dilerim 😁.
+        </p>
+    `;
+    container.appendChild(announcement);
+}
+
+function renderDY() {
+    const container = document.getElementById('quiz');
+    const section = document.createElement('div');
+    section.innerHTML = `
+        <div class="section-header">
+            <div class="section-number" style="background:rgba(99,102,241,0.1);color:#6366f1">1</div>
+            <div>
+                <div class="section-title">Doğru / Yanlış</div>
+                <div class="section-desc">İfadelerin doğruluğunu değerlendirin.</div>
+            </div>
+        </div>
+    `;
+    container.appendChild(section);
+    
+    shuffleArray(dyQuestions).forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'qcard';
+        card.id = `card-${item.id}`;
+        card.innerHTML = `
+            <div class="qhead">
+                <span class="qno">DY${index + 1}</span>
+                <div class="qtitle">${item.q}</div>
+            </div>
+            ${getHintHTML(item.id, item.hint)}
+            <div class="dy-options">
+                <label class="dy-opt">
+                    <input type="radio" name="${item.id}" value="true">
+                    <span>Doğru</span>
+                </label>
+                <label class="dy-opt">
+                    <input type="radio" name="${item.id}" value="false">
+                    <span>Yanlış</span>
+                </label>
+            </div>
+            <div id="${item.id}-feedback" class="feedback"></div>
+        `;
+        container.appendChild(card);
+        
+        // Event listener
+        card.querySelectorAll(`input[name="${item.id}"]`).forEach(input => {
+            input.addEventListener('change', () => {
+                saveProgress();
+                card.querySelectorAll('.dy-opt').forEach(opt => {
+                    opt.classList.remove('checked');
+                });
+                if (input.checked) {
+                    input.closest('.dy-opt').classList.add('checked');
+                }
+            });
+        });
+    });
+}
+
+function renderBlank() {
+    const container = document.getElementById('quiz');
+    const section = document.createElement('div');
+    section.innerHTML = `
+        <div class="section-header">
+            <div class="section-number" style="background:rgba(16,185,129,0.1);color:#10b981">2</div>
+            <div>
+                <div class="section-title">Kavram Eşleştirme</div>
+                <div class="section-desc">Eksik bırakılan teknik terimleri tamamlayın.</div>
+            </div>
+        </div>
+    `;
+    container.appendChild(section);
+    
+    shuffleArray(blankQuestions).forEach((item, index) => {
+        const displayQ = item.q.replace("...", "<span style='display:inline-block;width:80px;border-bottom:2px solid var(--brand);margin:0 4px'></span>");
+        const card = document.createElement('div');
+        card.className = 'qcard';
+        card.id = `card-${item.id}`;
+        card.innerHTML = `
+            <div class="qhead">
+                <span class="qno">B${index + 1}</span>
+                <div class="qtitle" style="line-height:1.6">${displayQ}</div>
+            </div>
+            ${getHintHTML(item.id, item.hint)}
+            <input type="text" id="${item.id}" class="blank-input" placeholder="Kavramı buraya yazın">
+            <div id="${item.id}-feedback" class="feedback"></div>
+        `;
+        container.appendChild(card);
+        
+        // Event listener
+        const input = card.querySelector(`#${item.id}`);
+        input.addEventListener('input', () => saveProgress());
+    });
+}
+
+function renderMC() {
+    const container = document.getElementById('quiz');
+    const section = document.createElement('div');
+    section.innerHTML = `
+        <div class="section-header">
+            <div class="section-number" style="background:rgba(245,158,11,0.1);color:#f59e0b">3</div>
+            <div>
+                <div class="section-title">Çoktan Seçmeli</div>
+                <div class="section-desc">En doğru seçeneği işaretleyin.</div>
+            </div>
+        </div>
+    `;
+    container.appendChild(section);
+    
+    shuffleArray(mcQuestions).forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'qcard';
+        card.id = `card-${item.id}`;
+        
+        let optionsHTML = '';
+        item.options.forEach((opt, optIndex) => {
+            optionsHTML += `
+                <label class="opt">
+                    <input type="radio" name="${item.id}" value="${optIndex}">
+                    <div>${String.fromCharCode(65 + optIndex)}) ${opt}</div>
+                </label>
+            `;
+        });
+        
+        card.innerHTML = `
+            <div class="qhead">
+                <span class="qno">Test-${index + 1}</span>
+                <div class="qtitle">${item.q}</div>
+            </div>
+            ${getHintHTML(item.id, item.hint)}
+            <div class="options">
+                ${optionsHTML}
+            </div>
+            <div id="${item.id}-feedback" class="feedback"></div>
+        `;
+        container.appendChild(card);
+        
+        // Event listener
+        card.querySelectorAll(`input[name="${item.id}"]`).forEach(input => {
+            input.addEventListener('change', () => {
+                saveProgress();
+                card.querySelectorAll('.opt').forEach(opt => {
+                    opt.classList.remove('checked');
+                });
+                if (input.checked) {
+                    input.closest('.opt').classList.add('checked');
+                }
+            });
+        });
+    });
+}
+
+function renderVisual() {
+    const container = document.getElementById('quiz');
+    const section = document.createElement('div');
+    section.innerHTML = `
+        <div class="section-header">
+            <div class="section-number" style="background:rgba(236,72,153,0.1);color:#ec4899">4</div>
+            <div>
+                <div class="section-title">Görsel Analiz</div>
+                <div class="section-desc">Grafik ve şekilleri yorumlayarak cevaplayın.</div>
+            </div>
+        </div>
+    `;
+    container.appendChild(section);
+    
+    shuffleArray(visualQuestions).forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'qcard';
+        card.id = `card-${item.id}`;
+        
+        let optionsHTML = '';
+        item.options.forEach((opt, optIndex) => {
+            optionsHTML += `
+                <label class="opt">
+                    <input type="radio" name="${item.id}" value="${optIndex}">
+                    <div>${String.fromCharCode(65 + optIndex)}) ${opt}</div>
+                </label>
+            `;
+        });
+        
+        card.innerHTML = `
+            <div class="qhead">
+                <span class="qno">Görsel-${index + 1}</span>
+                <div class="qtitle">${item.q}</div>
+            </div>
+            <div class="visual-container">
+                <div style="display:inline-block;width:75%;max-width:400px">
+                    ${item.svg.replace('<svg', '<svg width="100%" height="auto"')}
+                </div>
+            </div>
+            ${getHintHTML(item.id, item.hint)}
+            <div class="options">
+                ${optionsHTML}
+            </div>
+            <div id="${item.id}-feedback" class="feedback"></div>
+        `;
+        container.appendChild(card);
+        
+        // Event listener
+        card.querySelectorAll(`input[name="${item.id}"]`).forEach(input => {
+            input.addEventListener('change', () => {
+                saveProgress();
+                card.querySelectorAll('.opt').forEach(opt => {
+                    opt.classList.remove('checked');
+                });
+                if (input.checked) {
+                    input.closest('.opt').classList.add('checked');
+                }
+            });
+        });
+    });
+}
+
+function renderScenario() {
+    const container = document.getElementById('quiz');
+    const section = document.createElement('div');
+    section.innerHTML = `
+        <div class="section-header">
+            <div class="section-number" style="background:rgba(124, 58, 237, 0.1);color:#7c3aed">5</div>
+            <div>
+                <div class="section-title">Vaka Analizi (Case Study)</div>
+                <div class="section-desc">Gerçek hayat senaryolarında bir veri bilimci gibi karar verin.</div>
+            </div>
+        </div>
+    `;
+    container.appendChild(section);
+    
+    shuffleArray(scenarioQuestions).forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'qcard scenario-card';
+        card.id = `card-${item.id}`;
+        
+        let optionsHTML = '';
+        item.options.forEach((opt, optIndex) => {
+            optionsHTML += `
+                <label class="opt">
+                    <input type="radio" name="${item.id}" value="${optIndex}">
+                    <div>${String.fromCharCode(65 + optIndex)}) ${opt}</div>
+                </label>
+            `;
+        });
+        
+        card.innerHTML = `
+            <div class="qhead">
+                <span class="qno">Senaryo-${index + 1}</span>
+                <div class="qtitle">${item.q}</div>
+            </div>
+            ${getHintHTML(item.id, item.hint)}
+            <div class="options">
+                ${optionsHTML}
+            </div>
+            <div id="${item.id}-feedback" class="feedback"></div>
+        `;
+        container.appendChild(card);
+        
+        // Event listener
+        card.querySelectorAll(`input[name="${item.id}"]`).forEach(input => {
+            input.addEventListener('change', () => {
+                saveProgress();
+                card.querySelectorAll('.opt').forEach(opt => {
+                    opt.classList.remove('checked');
+                });
+                if (input.checked) {
+                    input.closest('.opt').classList.add('checked');
+                }
+            });
+        });
+    });
+}
+
+function renderClassic() {
+    const container = document.getElementById('quiz');
+    const section = document.createElement('div');
+    section.innerHTML = `
+        <div class="section-header">
+            <div class="section-number" style="background:rgba(147,51,234,0.1);color:#9333ea">6</div>
+            <div>
+                <div class="section-title">Analiz ve Yorum</div>
+                <div class="section-desc">Bu bölüm puantaj dışıdır, kendinizi deneyin.</div>
+            </div>
+        </div>
+    `;
+    container.appendChild(section);
+    
+    shuffleArray(classicQuestions).forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'qcard';
+        card.style.borderLeft = '4px solid #9333ea';
+        card.innerHTML = `
+            <div class="qhead">
+                <span class="qno">Klasik-${index + 1}</span>
+                <div class="qtitle">${item.q}</div>
+            </div>
+            ${getHintHTML(item.id, item.hint)}
+            <textarea class="classic-textarea" id="${item.id}" placeholder="Analizini buraya yaz..."></textarea>
+            <button onclick="document.getElementById('ans-${item.id}').classList.toggle('show')" style="margin-top:10px;color:#9333ea;font-weight:600;font-size:13px;cursor:pointer;background:none;border:none;padding:0">
+                👁️ Örnek Cevabı Gör
+            </button>
+            <div id="ans-${item.id}" class="classic-answer">
+                <div style="font-weight:800;color:#9333ea;margin-bottom:8px">Beklenen Yaklaşım:</div>
+                ${item.exp}
+            </div>
+        `;
+        container.appendChild(card);
+        
+        // Event listener
+        const textarea = card.querySelector(`#${item.id}`);
+        textarea.addEventListener('input', () => saveProgress());
+    });
+}
+
+// --- LOGIC ---
+function toggleHint(id) {
+    const el = document.getElementById(id);
+    if (el) {
+        el.classList.toggle('show');
+    }
+}
+
+function finishExam() {
+    let correctCount = 0;
+    let wrongCount = 0;
+    let emptyCount = 0;
+
+    // Helper to process standard questions
+    const checkStandard = (items, type) => {
+        items.forEach(item => {
+            const selected = document.querySelector(`input[name="${item.id}"]:checked`);
+            const feedback = document.getElementById(`${item.id}-feedback`);
+            const card = document.getElementById(`card-${item.id}`);
+            
+            feedback.classList.add('show');
+            
+            if (selected) {
+                let isCorrect = false;
+                if (type === 'dy') isCorrect = (selected.value === "true") === item.a;
+                if (type === 'mc' || type === 'visual' || type === 'scenario') isCorrect = parseInt(selected.value) === item.correct;
+                
+                if (isCorrect) {
+                    correctCount++;
+                    feedback.className = 'feedback show correct';
+                    feedback.innerHTML = `<strong>✓ Doğru!</strong><br>${item.exp}`;
+                    card.style.borderColor = 'var(--ok)';
+                } else {
+                    wrongCount++;
+                    feedback.className = 'feedback show incorrect';
+                    feedback.innerHTML = `<strong>✗ Yanlış.</strong><br>${item.exp}`;
+                    card.style.borderColor = 'var(--bad)';
+                }
+            } else {
+                emptyCount++;
+                feedback.className = 'feedback show empty';
+                feedback.innerHTML = `<strong>○ Boş Bırakıldı.</strong><br>${item.exp}`;
+            }
+        });
+    };
+
+    checkStandard(dyQuestions, 'dy');
+    checkStandard(mcQuestions, 'mc');
+    checkStandard(visualQuestions, 'visual');
+    checkStandard(scenarioQuestions, 'scenario');
+
+    // Blank Check
+    blankQuestions.forEach(item => {
+        const input = document.getElementById(item.id);
+        const val = input.value.trim().toLowerCase();
+        const feedback = document.getElementById(`${item.id}-feedback`);
+        const card = document.getElementById(`card-${item.id}`);
+        
+        feedback.classList.add('show');
+        
+        if (val.length > 0) {
+            const isCorrect = item.a.some(ans => val.includes(ans.toLowerCase()));
+            if (isCorrect) {
+                correctCount++;
+                feedback.className = 'feedback show correct';
+                feedback.innerHTML = `<strong>✓ Doğru!</strong><br>Doğru cevap: <strong>${item.exp}</strong>`;
+                card.style.borderColor = 'var(--ok)';
+            } else {
+                wrongCount++;
+                feedback.className = 'feedback show incorrect';
+                feedback.innerHTML = `<strong>✗ Yanlış.</strong><br>Doğru cevap: <strong>${item.exp}</strong>`;
+                card.style.borderColor = 'var(--bad)';
+            }
+        } else {
+            emptyCount++;
+            feedback.className = 'feedback show empty';
+            feedback.innerHTML = `<strong>○ Boş Bırakıldı.</strong><br>Doğru cevap: <strong>${item.exp}</strong>`;
+        }
+    });
+
+    // Update Modal
+    document.getElementById('correctCountDisplay').textContent = correctCount;
+    document.getElementById('wrongCountDisplay').textContent = wrongCount;
+    document.getElementById('emptyCountDisplay').textContent = emptyCount;
+    document.getElementById('scoreBox').textContent = `Skor: ${correctCount} / ${TOTAL_QUESTIONS}`;
+    
+    // Show Modal
+    document.getElementById('reportModal').classList.add('show');
+}
+
+function closeModal() {
+    document.getElementById('reportModal').classList.remove('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// --- TOOLBAR BUTTONS ---
+document.getElementById('btnRevealAll').onclick = () => {
+    document.querySelectorAll('.feedback').forEach(f => f.classList.add('show'));
+    document.querySelectorAll('.hint-content').forEach(h => h.classList.add('show'));
+    document.getElementById('btnRevealAll').classList.add('active');
+    document.getElementById('btnHideAll').classList.remove('active');
+    if (typeof MathJax !== 'undefined') MathJax.typesetPromise();
+};
+
+document.getElementById('btnHideAll').onclick = () => {
+    document.querySelectorAll('.feedback').forEach(f => {
+        f.classList.remove('show');
+        f.className = 'feedback';
+    });
+    document.querySelectorAll('.hint-content').forEach(h => h.classList.remove('show'));
+    document.getElementById('btnHideAll').classList.add('active');
+    document.getElementById('btnRevealAll').classList.remove('active');
+};
+
+document.getElementById('btnScore').onclick = () => {
+    finishExam();
+    document.getElementById('btnRevealAll').classList.add('active');
+    document.getElementById('btnHideAll').classList.remove('active');
+    if (typeof MathJax !== 'undefined') MathJax.typesetPromise();
+};
+
+document.getElementById('btnReset').onclick = () => {
+    localStorage.removeItem('ybs441_final');
+    document.querySelectorAll('input[type=radio]').forEach(i => i.checked = false);
+    document.querySelectorAll('input[type=text]').forEach(i => i.value = '');
+    document.querySelectorAll('textarea').forEach(t => t.value = '');
+    document.querySelectorAll('.feedback').forEach(f => {
+        f.classList.remove('show');
+        f.className = 'feedback';
+    });
+    document.querySelectorAll('.hint-content').forEach(h => h.classList.remove('show'));
+    document.querySelectorAll('.qcard').forEach(c => c.style.borderColor = '');
+    document.getElementById('scoreBox').textContent = `Skor: – / ${TOTAL_QUESTIONS}`;
+    document.getElementById('btnRevealAll').classList.remove('active');
+    document.getElementById('btnHideAll').classList.remove('active');
+};
+
+// --- THEME ---
+const root = document.documentElement;
+const themeBtn = document.getElementById('btnTheme');
+function applyTheme(t) {
+    root.classList.toggle('dark', t === 'dark');
+    themeBtn.textContent = t === 'dark' ? '☀️ Aydınlık' : '🌙 Karanlık';
+}
+let theme = localStorage.getItem('ybs441_theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+applyTheme(theme);
+themeBtn.onclick = () => {
+    theme = (theme === 'dark' ? 'light' : 'dark');
+    localStorage.setItem('ybs441_theme', theme);
+    applyTheme(theme);
+};
+
+// --- LOCALSTORAGE ---
+function saveProgress() {
+    const state = {
+        dy: {},
+        blank: {},
+        mc: {},
+        visual: {},
+        scenario: {},
+        classic: {}
+    };
+    
+    const saveRadio = (arr, key) => {
+        arr.forEach(item => {
+            const selected = document.querySelector(`input[name="${item.id}"]:checked`);
+            if (selected) state[key][item.id] = selected.value;
+        });
+    };
+    
+    saveRadio(dyQuestions, 'dy');
+    saveRadio(mcQuestions, 'mc');
+    saveRadio(visualQuestions, 'visual');
+    saveRadio(scenarioQuestions, 'scenario');
+    
+    blankQuestions.forEach(item => {
+        const val = document.getElementById(item.id).value;
+        if (val) state.blank[item.id] = val;
+    });
+    
+    classicQuestions.forEach(item => {
+        const val = document.getElementById(item.id).value;
+        if (val) state.classic[item.id] = val;
+    });
+    
+    localStorage.setItem('ybs441_final', JSON.stringify(state));
+}
+
+function loadProgress() {
+    try {
+        const raw = localStorage.getItem('ybs441_final');
+        if (!raw) return;
+        const state = JSON.parse(raw);
+        
+        const loadRadio = (data, key) => {
+            if (data) {
+                Object.keys(data).forEach(id => {
+                    const input = document.querySelector(`input[name="${id}"][value="${data[id]}"]`);
+                    if (input) {
+                        input.checked = true;
+                        input.dispatchEvent(new Event('change'));
+                    }
+                });
+            }
+        };
+        
+        loadRadio(state.dy, 'dy');
+        loadRadio(state.mc, 'mc');
+        loadRadio(state.visual, 'visual');
+        loadRadio(state.scenario, 'scenario');
+        
+        // Blank
+        if (state.blank) {
+            Object.keys(state.blank).forEach(id => {
+                const input = document.getElementById(id);
+                if (input) input.value = state.blank[id];
+            });
+        }
+        
+        // Classic
+        if (state.classic) {
+            Object.keys(state.classic).forEach(id => {
+                const textarea = document.getElementById(id);
+                if (textarea) textarea.value = state.classic[id];
+            });
+        }
+    } catch (e) {
+        console.error('Yükleme hatası:', e);
+    }
+}
+
+// --- INIT ---
+document.getElementById('subtitle').textContent = 
+    `Final Sınavı Çalışma Soruları • ${TOTAL_QUESTIONS} soru • "Cevabı Göster" ile açıklamaları aç.`;
+document.getElementById('scoreBox').textContent = `Skor: – / ${TOTAL_QUESTIONS}`;
+
+window.onload = function() {
+    renderAnnouncement();
+    renderDY();
+    renderBlank();
+    renderMC();
+    renderVisual();
+    renderScenario();
+    renderClassic();
+    loadProgress();
+    // Render equations
+    if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+    }
+};
+</script>
+</body>
+</html>
